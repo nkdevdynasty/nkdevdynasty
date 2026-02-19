@@ -1,11 +1,11 @@
-"use client"
+"use client";
 
-import Link from "next/link"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Separator } from "@/components/ui/separator"
-import AuthCard from "@/src/component/auth-card/auth-card"
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Separator } from "@/components/ui/separator";
+import AuthCard from "@/src/component/auth-card/auth-card";
 
 export default function SignUp() {
   return (
@@ -41,5 +41,5 @@ export default function SignUp() {
         </Link>
       </p>
     </AuthCard>
-  )
+  );
 }

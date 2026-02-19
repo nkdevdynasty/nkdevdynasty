@@ -1,18 +1,11 @@
-import type { ReactNode } from "react"
+import type { ReactNode } from "react";
 
-export default function AuthLayout({
-  children,
-}: {
-  children: ReactNode
-}) {
+export default function AuthLayout({ children }: { children: ReactNode }) {
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-br from-background via-muted/40 to-background">
-      
       {/* Optional Top Branding */}
       <div className="w-full py-6 text-center bg-red-300">
-        <h1 className="text-2xl font-bold tracking-tight">
-          🚀 MyAuthApp
-        </h1>
+        <h1 className="text-2xl font-bold tracking-tight">🚀 MyAuthApp</h1>
       </div>
 
       {/* Page Content */}
@@ -25,5 +18,5 @@ export default function AuthLayout({
         © {new Date().getFullYear()} MyAuthApp. All rights reserved.
       </div>
     </div>
-  )
+  );
 }
