@@ -1,7 +1,21 @@
-export default function Home() {
-  return(
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <h1 className="text-4xl font-bold">Hello, World!</h1>
-    </main>
-  )
+'use client'
+
+import { useEffect } from 'react'
+import { supabase } from '@/lib/supabaseClient'
+
+export default function Page() {
+  useEffect(() => {
+    const testConnection = async () => {
+      const { data, error } = await supabase
+        .from('users_')
+        .select('*')
+
+      console.log('DATA:', data)
+      console.log('ERROR:', error)
+    }
+
+    testConnection()
+  }, [])
+
+  return <div>Check Console</div>
 }
