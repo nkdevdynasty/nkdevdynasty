@@ -25,9 +25,9 @@ export default function AuthLayout({ children }: { children: ReactNode }) {
         <Image
           height={100}
           width={100}
-          src="images/college-campus.jpg"
+          src="/images/building_2.jpg"
           alt="College image"
-          className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
+          className="w-full h-full object-cover absolute inset-0 opacity-90"
         />
       </div>
     </div>

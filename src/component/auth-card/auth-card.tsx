@@ -21,7 +21,7 @@ export default function AuthCard({
   children,
 }: AuthCardProps) {
   return (
-    <Card className="w-full max-w-md rounded-2xl shadow-xl">
+    <Card className="w-full max-w-md">
       <CardHeader className="space-y-1">
         <CardTitle className="text-center text-2xl font-bold">
           {title}
