@@ -1,6 +1,6 @@
 "use client"
 
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { ReactNode } from "react"
 
 interface AuthCardProps {
@@ -11,21 +11,13 @@ interface AuthCardProps {
 
 export default function AuthCard({ title, description, children }: AuthCardProps) {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-muted/40 px-4">
-      <Card className="w-full max-w-md shadow-xl rounded-2xl">
-        <CardHeader className="space-y-1">
-          <CardTitle className="text-2xl font-bold text-center">
-            {title}
-          </CardTitle>
-          {description && (
-            <CardDescription className="text-center">
-              {description}
-            </CardDescription>
-          )}
-        </CardHeader>
+    <Card className="w-full max-w-md rounded-2xl shadow-xl">
+      <CardHeader className="space-y-1">
+        <CardTitle className="text-center text-2xl font-bold">{title}</CardTitle>
+        {description ? <CardDescription className="text-center">{description}</CardDescription> : null}
+      </CardHeader>
 
-        <CardContent>{children}</CardContent>
-      </Card>
-    </div>
+      <CardContent>{children}</CardContent>
+    </Card>
   )
 }
