@@ -1,21 +1,34 @@
 import type { ReactNode } from "react";
+import Link from "next/link";
+import { GalleryVerticalEnd } from "lucide-react";
+import Image from "next/image";
 
 export default function AuthLayout({ children }: { children: ReactNode }) {
   return (
-    <div className="min-h-screen flex flex-col bg-gradient-to-br from-background via-muted/40 to-background">
-      {/* Optional Top Branding */}
-      <div className="w-full py-6 text-center bg-red-300">
-        <h1 className="text-2xl font-bold tracking-tight">🚀 MyAuthApp</h1>
+    <div className="grid min-h-svh lg:grid-cols-2">
+      <div className="flex flex-col gap-4 p-6 md:p-10">
+        <div className="flex justify-center gap-2 md:justify-start">
+          <Link href="/" className="flex items-center gap-2 font-medium">
+            <div className="bg-primary text-primary-foreground flex size-6 items-center justify-center rounded-md">
+              <GalleryVerticalEnd className="size-4" />
+            </div>
+            Saraswati Vidya Mandir
+          </Link>
+        </div>
+
+        <div className="flex flex-1 items-center justify-center">
+          {children}
+        </div>
       </div>
 
-      {/* Page Content */}
-      <div className="flex flex-1 items-center min-w-7xl justify-center px-4 bg-blue-400">
-        {children}
-      </div>
-
-      {/* Optional Footer */}
-      <div className="py-6 text-center text-sm text-muted-foreground bg-gray-500">
-        © {new Date().getFullYear()} MyAuthApp. All rights reserved.
+      <div className="bg-muted relative hidden lg:block">
+        <Image
+          height={100}
+          width={100}
+          src="images/college-campus.jpg"
+          alt="College image"
+          className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
+        />
       </div>
     </div>
   );

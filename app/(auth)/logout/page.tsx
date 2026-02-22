@@ -15,7 +15,7 @@ export default function Logout() {
           Thank you for visiting. See you again soon!
         </p>
 
-        <Link href="/signin">
+        <Link href="/login">
           <Button className="w-full">Sign In Again</Button>
         </Link>
       </div>
