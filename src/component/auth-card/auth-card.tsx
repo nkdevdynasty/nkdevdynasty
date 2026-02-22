@@ -1,15 +1,25 @@
-"use client"
+"use client";
 
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
-import { ReactNode } from "react"
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+} from "@/components/ui/card";
+import { ReactNode } from "react";
 
 interface AuthCardProps {
-  title: string
-  description?: string
-  children: ReactNode
+  title: string;
+  description?: string;
+  children: ReactNode;
 }
 
-export default function AuthCard({ title, description, children }: AuthCardProps) {
+export default function AuthCard({
+  title,
+  description,
+  children,
+}: AuthCardProps) {
   return (
     <div className="flex min-h-screen items-center justify-center bg-muted/40 px-4">
       <Card className="w-full max-w-md shadow-xl rounded-2xl">
@@ -27,5 +37,5 @@ export default function AuthCard({ title, description, children }: AuthCardProps
         <CardContent>{children}</CardContent>
       </Card>
     </div>
-  )
+  );
 }

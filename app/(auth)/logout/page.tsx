@@ -1,9 +1,8 @@
-"use client"
+"use client";
 
-import Link from "next/link"
-import { Button } from "@/components/ui/button"
-import AuthCard from "@/src/component/auth-card/auth-card"
-
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import AuthCard from "@/src/component/auth-card/auth-card";
 
 export default function Logout() {
   return (
@@ -21,5 +20,5 @@ export default function Logout() {
         </Link>
       </div>
     </AuthCard>
-  )
+  );
 }

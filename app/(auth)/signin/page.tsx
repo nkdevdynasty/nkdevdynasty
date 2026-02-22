@@ -1,18 +1,15 @@
-"use client"
+"use client";
 
-import Link from "next/link"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Separator } from "@/components/ui/separator"
-import AuthCard from "@/src/component/auth-card/auth-card"
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Separator } from "@/components/ui/separator";
+import AuthCard from "@/src/component/auth-card/auth-card";
 
 export default function SignIn() {
   return (
-    <AuthCard
-      title="Welcome Back"
-      description="Sign in to your account"
-    >
+    <AuthCard title="Welcome Back" description="Sign in to your account">
       <form className="space-y-4">
         <div className="space-y-2">
           <Label>Email</Label>
@@ -40,10 +37,13 @@ export default function SignIn() {
       <Separator className="my-6" />
 
       <div className="text-center">
-        <Link href="/logout" className="text-muted-foreground hover:underline text-sm">
+        <Link
+          href="/logout"
+          className="text-muted-foreground hover:underline text-sm"
+        >
           Logout (Demo)
         </Link>
       </div>
     </AuthCard>
-  )
+  );
 }
