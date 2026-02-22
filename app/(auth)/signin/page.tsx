@@ -7,18 +7,10 @@ import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import AuthCard from "@/src/component/auth-card/auth-card";
 
-export default function SignUp() {
+export default function SignIn() {
   return (
-    <AuthCard
-      title="Create an Account"
-      description="Enter your details to get started"
-    >
+    <AuthCard title="Welcome Back" description="Sign in to your account">
       <form className="space-y-4">
-        <div className="space-y-2">
-          <Label>Full Name</Label>
-          <Input type="text" placeholder="John Doe" required />
-        </div>
-
         <div className="space-y-2">
           <Label>Email</Label>
           <Input type="email" placeholder="example@email.com" required />
@@ -29,17 +21,29 @@ export default function SignUp() {
           <Input type="password" required />
         </div>
 
-        <Button className="w-full">Sign Up</Button>
+        <Button className="w-full">Sign In</Button>
       </form>
+
+      <div className="flex justify-between text-sm mt-4">
+        <Link href="/forgot-password" className="text-primary hover:underline">
+          Forgot password?
+        </Link>
+
+        <Link href="/signup" className="text-primary hover:underline">
+          Create account
+        </Link>
+      </div>
 
       <Separator className="my-6" />
 
-      <p className="text-sm text-center">
-        Already have an account?{" "}
-        <Link href="/login" className="text-primary hover:underline">
-          Sign In
+      <div className="text-center">
+        <Link
+          href="/logout"
+          className="text-muted-foreground hover:underline text-sm"
+        >
+          Logout (Demo)
         </Link>
-      </p>
+      </div>
     </AuthCard>
   );
 }
