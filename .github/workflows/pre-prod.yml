@@ -8,7 +8,7 @@ on:
   workflow_dispatch: 
 
 jobs:
-  build:
+  quality-gate-check:
     runs-on: ubuntu-latest
 
     steps:
