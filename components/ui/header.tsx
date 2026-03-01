@@ -1,11 +1,9 @@
-"use client"
+"use client";
 
-import React, { useState } from "react"
-import Link from "next/link"
-import { DotIcon } from "lucide-react"
-import { Button } from "@/components/ui/button"
-
-
+import React, { useState } from "react";
+import Link from "next/link";
+import { DotIcon } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 import {
   Sheet,
@@ -13,7 +11,7 @@ import {
   SheetDescription,
   SheetHeader,
   SheetTitle,
-} from "@/components/ui/sheet"
+} from "@/components/ui/sheet";
 
 import {
   CommandDialog,
@@ -22,7 +20,7 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-} from "@/components/ui/command"
+} from "@/components/ui/command";
 
 import {
   Breadcrumb,
@@ -31,29 +29,25 @@ import {
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb/breadcrumb"
+} from "@/components/ui/breadcrumb/breadcrumb";
 
 const Header: React.FC = () => {
-  const [commandOpen, setCommandOpen] = useState(false)
-  const [sheetOpen, setSheetOpen] = useState(false)
-  const [loginType, setLoginType] = useState<"admin" | "student" | null>(null)
+  const [commandOpen, setCommandOpen] = useState(false);
+  const [sheetOpen, setSheetOpen] = useState(false);
+  const [loginType, setLoginType] = useState<"admin" | "student" | null>(null);
 
   const handleLoginSelect = (type: "admin" | "student") => {
-    setLoginType(type)
-    setCommandOpen(false)
-    setSheetOpen(true)
-  }
+    setLoginType(type);
+    setCommandOpen(false);
+    setSheetOpen(true);
+  };
 
   return (
     <header className="bg-orange-500 text-white p-4">
-
       {/* Top Section */}
       <div className="flex items-center justify-between">
-
         {/* Logo */}
-        <h1 className="text-xl font-bold">
-          NK Dev Dynasty
-        </h1>
+        <h1 className="text-xl font-bold">NK Dev Dynasty</h1>
 
         {/* Login Button */}
         <Button
@@ -94,7 +88,6 @@ const Header: React.FC = () => {
           </SheetHeader>
 
           <div className="flex flex-col gap-4 p-6">
-
             {/* Email */}
             <div className="flex flex-col gap-2">
               <label className="text-sm font-medium">Email</label>
@@ -123,7 +116,6 @@ const Header: React.FC = () => {
             <button className="bg-orange-500 text-white py-2 rounded-md hover:bg-orange-600 transition">
               Login
             </button>
-
           </div>
         </SheetContent>
       </Sheet>
@@ -132,7 +124,6 @@ const Header: React.FC = () => {
       <div className="mt-4">
         <Breadcrumb>
           <BreadcrumbList>
-
             <BreadcrumbItem>
               <BreadcrumbLink asChild>
                 <Link href="/">Home</Link>
@@ -186,52 +177,14 @@ const Header: React.FC = () => {
             <BreadcrumbItem>
               <BreadcrumbPage>Current Page</BreadcrumbPage>
             </BreadcrumbItem>
-
           </BreadcrumbList>
         </Breadcrumb>
       </div>
-
     </header>
-  )
-}
+  );
+};
 
-export default Header
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+export default Header;
 
 // "use client"
 
@@ -260,10 +213,10 @@ export default Header
 // const Header: React.FC = () => {
 //   return (
 //     <header className="bg-orange-500 text-white px-6 py-4">
-      
+
 //       {/* Top Section: Logo + Menu */}
 //       <div className="flex items-center justify-between">
-        
+
 //         {/* Logo */}
 //         <h1 className="text-xl font-bold tracking-wide">
 //           NK Dev Dynasty
@@ -286,7 +239,7 @@ export default Header
 //             </SheetHeader>
 
 //             <div className="flex flex-col gap-5 mt-6 px-4">
-              
+
 //               {/* Email */}
 //               <div className="flex flex-col gap-2">
 //                 <label className="text-sm font-medium">Email</label>
@@ -320,7 +273,7 @@ export default Header
 //       <div className="mt-6 overflow-x-auto">
 //         <Breadcrumb>
 //           <BreadcrumbList className="flex items-center gap-2">
-            
+
 //             <BreadcrumbItem>
 //               <BreadcrumbLink asChild>
 //                 <Link href="/">Home</Link>
@@ -384,49 +337,6 @@ export default Header
 // }
 
 // export default Header
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 // "use client"
 
@@ -581,4 +491,3 @@ export default Header
 // }
 
 // export default Header
-

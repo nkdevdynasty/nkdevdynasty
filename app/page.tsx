@@ -1,9 +1,4 @@
-import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from "@/components/ui/tabs";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Card,
   CardContent,
@@ -20,32 +15,54 @@ import {
 } from "@/components/ui/carousel";
 import Header from "@/components/ui/header";
 import Footer from "@/components/ui/footer";
+import Image from "next/image";
 
-/**
- * Helper to render Strapi Blocks text
- * This fixes the "Objects are not valid as a React child" error.
- */
-function renderDescription(blocks: any) {
-  if (!blocks || !Array.isArray(blocks)) return "";
-  
-  return blocks.map((block: any) => 
-    block.children?.map((child: any) => child.text).join("")
-  ).join("\n");
+// --- Types ---
+
+interface StrapiTextChild {
+  text: string;
+  type?: string;
 }
 
-async function getTabData() {
+interface StrapiBlock {
+  children?: StrapiTextChild[];
+  type?: string;
+}
+
+interface TabData {
+  id: number;
+  title: string;
+  description: StrapiBlock[]; // Strapi v5 Rich Text blocks
+  footerText?: string;
+}
+
+// --- Helpers ---
+
+/**
+ * Helper to render Strapi Blocks text safely
+ */
+function renderDescription(blocks: StrapiBlock[]): string {
+  if (!blocks || !Array.isArray(blocks)) return "";
+
+  return blocks
+    .map((block) =>
+      block.children?.map((child) => child.text).join("") || ""
+    )
+    .join("\n");
+}
+
+async function getTabData(): Promise<TabData[]> {
   try {
     const res = await fetch(
       "http://strapi-y0c0kgs84s888k0ss40wskk8.89.167.10.11.sslip.io/api/about?populate=tabs",
-      { 
-        cache: 'no-store',
-        headers: { 'Content-Type': 'application/json' }
-      }
+      {
+        cache: "no-store",
+        headers: { "Content-Type": "application/json" },
+      },
     );
 
     const json = await res.json();
-    
-    // Strapi v5 structure fix based on your console log
+
     if (!json || !json.data || !json.data.tabs) {
       console.warn("No tabs found in the response.");
       return [];
@@ -78,12 +95,18 @@ export default async function Home() {
         <Carousel className="w-full max-w-4xl">
           <CarouselContent>
             {[
-              "/images/s1.jpg", "/images/s2.jpg", "/images/s3.jpg",
-              "/images/s4.jpg", "/images/s5.jpg", "/images/sdvm0.jpg",
+              "/images/s1.jpg",
+              "/images/s2.jpg",
+              "/images/s3.jpg",
+              "/images/s4.jpg",
+              "/images/s5.jpg",
+              "/images/sdvm0.jpg",
             ].map((src, index) => (
               <CarouselItem key={index}>
                 <div className="p-2">
-                  <img
+                  <Image
+                    width={800} // Increased for better resolution
+                    height={400}
                     src={src}
                     alt={`Slide ${index + 1}`}
                     className="w-full h-[400px] object-cover rounded-xl"
@@ -96,37 +119,44 @@ export default async function Home() {
           <CarouselNext />
         </Carousel>
 
-        <div className="mt-16 w-full flex justify-center">
+        <div className="mt-16 w-full flex justify-center px-4">
           {tabData.length > 0 ? (
             <Tabs defaultValue={tabData[0].title} className="w-full max-w-2xl">
-              <TabsList className={`grid w-full grid-cols-${tabData.length}`}>
-                {tabData.map((tab: any) => (
+              {/* Dynamic grid cols based on tab count */}
+              <TabsList 
+                className="grid w-full" 
+                style={{ gridTemplateColumns: `repeat(${tabData.length}, minmax(0, 1fr))` }}
+              >
+                {tabData.map((tab) => (
                   <TabsTrigger key={tab.id} value={tab.title}>
                     {tab.title}
                   </TabsTrigger>
                 ))}
               </TabsList>
 
-              {tabData.map((tab: any) => (
+              {tabData.map((tab) => (
                 <TabsContent key={tab.id} value={tab.title}>
                   <Card>
                     <CardHeader>
                       <CardTitle>{tab.title}</CardTitle>
-                      <CardDescription>
-                        {/* FIX: Use the helper function here */}
+                      <CardDescription className="whitespace-pre-line">
                         {renderDescription(tab.description)}
                       </CardDescription>
                     </CardHeader>
-                    <CardContent className="text-sm text-muted-foreground">
-                      {tab.footerText}
-                    </CardContent>
+                    {tab.footerText && (
+                      <CardContent className="text-sm text-muted-foreground">
+                        {tab.footerText}
+                      </CardContent>
+                    )}
                   </Card>
                 </TabsContent>
               ))}
             </Tabs>
           ) : (
             <div className="text-center p-10 bg-white/80 rounded-lg">
-              <p className="text-red-600 font-semibold">No content found in Strapi.</p>
+              <p className="text-red-600 font-semibold">
+                No content found in Strapi.
+              </p>
             </div>
           )}
         </div>
@@ -138,14 +168,18 @@ export default async function Home() {
         <Carousel className="w-full max-w-4xl mb-20">
           <CarouselContent>
             {[
-              "/images/degree topers1.jpg", "/images/front 1.jpg",
-              "/images/iit-2026.jpg", "/images/TEST-SERIES-25.jpg",
+              "/images/degree topers1.jpg",
+              "/images/front 1.jpg",
+              "/images/iit-2026.jpg",
+              "/images/TEST-SERIES-25.jpg",
             ].map((src, index) => (
               <CarouselItem key={index}>
                 <div className="p-2">
-                  <img
+                  <Image
+                    width={800}
+                    height={300}
                     src={src}
-                    alt={`Slide ${index + 1}`}
+                    alt={`Topper ${index + 1}`}
                     className="w-full h-[300px] object-cover rounded-xl"
                   />
                 </div>
@@ -161,5 +195,3 @@ export default async function Home() {
     </>
   );
 }
-
-
