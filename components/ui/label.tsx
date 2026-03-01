@@ -1,24 +1,21 @@
-"use client";
+import { Button } from "@/components/ui/button";
+import Header from "@/components/ui/header";   // adjust path if needed
+import Footer from "@/components/ui/footer";   // adjust path if needed
 
-import * as React from "react";
-import { Label as LabelPrimitive } from "radix-ui";
-
-import { cn } from "@/lib/utils";
-
-function Label({
-  className,
-  ...props
-}: React.ComponentProps<typeof LabelPrimitive.Root>) {
+export default function Home() {
   return (
-    <LabelPrimitive.Root
-      data-slot="label"
-      className={cn(
-        "flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50",
-        className,
-      )}
-      {...props}
-    />
-  );
-}
+    <>
+      <Header />
 
-export { Label };
+      <main className="flex min-h-screen flex-col items-center justify-center p-24 bg-cover bg-center" 
+      style={{ backgroundImage: "url('https://svmberhampur.com/wp-content/uploads/2023/05/slider1.jpg')" }}>
+        <h1 className="text-4xl font-bold">Hello, World!</h1>
+        <Button>Click me</Button>
+      </main>
+
+      <Footer />
+    </>
+  );
+}                  
+
+
