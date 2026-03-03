@@ -5,9 +5,11 @@ on:
     branches: ["main"]
   pull_request:
     branches: ["main"]
+  workflow_dispatch:
 
 jobs:
-  build:
+  quality-gate-check:
+    name: Quality Gate Check # 👈 ADD THIS LINE
     runs-on: ubuntu-latest
 
     steps:
