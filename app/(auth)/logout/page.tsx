@@ -1,24 +1,19 @@
 "use client";
 
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
+import { signOut } from "next-auth/react";
+import { useEffect } from "react";
 import AuthCard from "@/src/component/auth-card/auth-card";
 
 export default function Logout() {
-  return (
-    <AuthCard
-      title="Logged Out"
-      description="You have been successfully logged out"
-    >
-      <div className="space-y-4 text-center">
-        <p className="text-muted-foreground">
-          Thank you for visiting. See you again soon!
-        </p>
+  useEffect(() => {
+    signOut({ callbackUrl: "/signin", redirect: true });
+  }, []);
 
-        <Link href="/signin" className="w-full">
-          <Button className="w-full">Sign In Again</Button>
-        </Link>
-      </div>
+  return (
+    <AuthCard title="Logging out..." description="Please wait">
+      <p className="text-sm text-muted-foreground text-center animate-pulse">
+        Signing you out...
+      </p>
     </AuthCard>
   );
 }
