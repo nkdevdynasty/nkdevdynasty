@@ -1,9 +1,11 @@
 {
   "name": "@repo/ui",
+  "type": "module",
   "version": "0.0.0",
   "private": true,
   "exports": {
-    ".": "./src/index.tsx"
+    "./library.js": "./library.js",
+    "./nextjs.json": "./nextjs.json"
   },
   "scripts": {
     "lint": "eslint .",
@@ -14,8 +16,12 @@
     "react-dom": "^19"
   },
   "devDependencies": {
-    "@repo/typescript-config": "workspace:*",
+    "@eslint/eslintrc": "^3.3.5",
     "@repo/eslint-config": "workspace:*",
+    "@repo/typescript-config": "workspace:*",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
     "typescript": "^5"
   }
 }
