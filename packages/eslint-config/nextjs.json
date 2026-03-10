@@ -1,0 +1,12 @@
+{
+  "extends": ["next/core-web-vitals", "prettier"],
+  "plugins": ["only-warn"],
+  "settings": {
+    "next": {
+      "rootDir": ["apps/*/", "packages/*/"]
+    }
+  },
+  "rules": {
+    "no-unused-vars": "warn"
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "extends": ["eslint:recommended", "prettier"],
+  "plugins": ["only-warn"],
+  "env": {
+    "node": true
+  },
+  "rules": {
+    "no-unused-vars": "warn"
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "name": "@repo/eslint-config",
+  "version": "0.0.0",
+  "private": true,
+  "exports": {
+    "./nextjs.json": "./nextjs.json",
+    "./library.json": "./library.json"
+  }
+}
