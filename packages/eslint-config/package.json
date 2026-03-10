@@ -1,0 +1,19 @@
+{
+  "name": "@repo/eslint-config",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./nextjs.json": "./nextjs.json",
+    "./nextjs.js": "./nextjs.js",
+    "./library.json": "./library.json",
+    "./library.js": "./library.js"
+  },
+  "dependencies": {
+    "eslint-config-prettier": "^10.0.1",
+    "eslint-plugin-only-warn": "^1.1.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.39.4"
+  }
+}
