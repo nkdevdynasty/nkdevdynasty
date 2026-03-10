@@ -1,0 +1,3 @@
+module.exports=[93695,(a,b,c)=>{b.exports=a.x("next/dist/shared/lib/no-fallback-error.external.js",()=>require("next/dist/shared/lib/no-fallback-error.external.js"))},60421,a=>{a.n(a.i(86433))},43619,a=>{a.n(a.i(79962))},13718,a=>{a.n(a.i(85523))},18198,a=>{a.n(a.i(45518))},62212,a=>{a.n(a.i(66114))},49111,a=>{"use strict";var b=a.i(7997);function c(){return(0,b.jsxs)("div",{className:"p-4",children:[(0,b.jsx)("h1",{className:"text-2xl font-bold mb-4",children:"Admin Dashboard"}),(0,b.jsx)("p",{children:"Welcome to the admin dashboard. Here you can manage your application."})]})}a.s(["default",()=>c])}];
+
+//# sourceMappingURL=%5Broot-of-the-server%5D__c0a38cb2._.js.map

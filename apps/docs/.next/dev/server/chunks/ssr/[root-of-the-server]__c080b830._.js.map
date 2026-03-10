@@ -1,0 +1,6 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 22, "column": 0}, "map": {"version":3,"sources":["file:///C:/Users/ACER/OneDrive/Desktop/binary_squadd/nkdevdynasty/apps/docs/app/%28home%29/page.tsx"],"sourcesContent":["import Link from 'next/link';\n\nexport default function HomePage() {\n  return (\n    <div className=\"flex flex-col justify-center text-center flex-1\">\n      <h1 className=\"text-2xl font-bold mb-4\">Hello World</h1>\n      <p>\n        You can open{' '}\n        <Link href=\"/docs\" className=\"font-medium underline\">\n          /docs\n        </Link>{' '}\n        and see the documentation.\n      </p>\n    </div>\n  );\n}\n"],"names":[],"mappings":";;;;;AAAA;;;AAEe,SAAS;IACtB,qBACE,8OAAC;QAAI,WAAU;;0BACb,8OAAC;gBAAG,WAAU;0BAA0B;;;;;;0BACxC,8OAAC;;oBAAE;oBACY;kCACb,8OAAC,0LAAI;wBAAC,MAAK;wBAAQ,WAAU;kCAAwB;;;;;;oBAE7C;oBAAI;;;;;;;;;;;;;AAKpB"}}]
+}

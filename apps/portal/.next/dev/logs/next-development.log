@@ -1,0 +1,4 @@
+[00:00:29.552] Server  LOG     ✓ Ready in 28.1s
+[00:01:23.352] Server  LOG     ○ Compiling / ...
+[00:02:12.331] Browser WARN    Image with src "/images/building_2.jpg" was detected as the Largest Contentful Paint (LCP). Please add the `loading="eager"` property if this image is above the fold.
+Read more: https://nextjs.org/docs/app/api-reference/components/image#loading

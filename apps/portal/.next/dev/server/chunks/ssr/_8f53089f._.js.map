@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 4, "column": 0}, "map": {"version":3,"sources":["file:///C:/Users/ACER/OneDrive/Desktop/binary_squadd/nkdevdynasty/apps/portal/app/layout.tsx"],"sourcesContent":["import type { ReactNode } from \"react\";\n\nimport \"./globals.css\";\n\nexport default function RootLayout({ children }: { children: ReactNode }) {\n  return (\n    <html lang=\"en\">\n      <body className=\"min-h-screen\">{children}</body>\n    </html>\n  );\n}\r\n"],"names":[],"mappings":";;;;;;;AAIe,SAAS,WAAW,EAAE,QAAQ,EAA2B;IACtE,qBACE,8OAAC;QAAK,MAAK;kBACT,cAAA,8OAAC;YAAK,WAAU;sBAAgB;;;;;;;;;;;AAGtC"}},
+    {"offset": {"line": 32, "column": 0}, "map": {"version":3,"sources":["file:///C:/Users/ACER/OneDrive/Desktop/binary_squadd/nkdevdynasty/node_modules/next/src/server/route-modules/app-page/vendored/rsc/react-jsx-dev-runtime.ts"],"sourcesContent":["module.exports = (\n  require('../../module.compiled') as typeof import('../../module.compiled')\n).vendored['react-rsc']!.ReactJsxDevRuntime\n"],"names":["module","exports","require","vendored","ReactJsxDevRuntime"],"mappings":"AAAAA,OAAOC,OAAO,GACZC,QAAQ,4HACRC,QAAQ,CAAC,YAAY,CAAEC,kBAAkB","ignoreList":[0]}}]
+}

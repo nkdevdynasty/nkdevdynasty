@@ -1,0 +1,13 @@
+{
+  "/(auth)/forgot-password/page": "/forgot-password",
+  "/(auth)/logout/page": "/logout",
+  "/(auth)/signin/page": "/signin",
+  "/(auth)/signup/page": "/signup",
+  "/_global-error/page": "/_global-error",
+  "/_not-found/page": "/_not-found",
+  "/admin/page": "/admin",
+  "/alumini/page": "/alumini",
+  "/favicon.ico/route": "/favicon.ico",
+  "/page": "/",
+  "/student/page": "/student"
+}

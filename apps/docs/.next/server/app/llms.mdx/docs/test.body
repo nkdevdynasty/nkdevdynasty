@@ -1,0 +1,17 @@
+# Components
+
+
+
+Code Block [#code-block]
+
+```js
+console.log('Hello World');
+```
+
+Cards [#cards]
+
+<Cards>
+  <Card title="Learn more about Next.js" href="https://nextjs.org/docs" />
+
+  <Card title="Learn more about Fumadocs" href="https://fumadocs.dev" />
+</Cards>

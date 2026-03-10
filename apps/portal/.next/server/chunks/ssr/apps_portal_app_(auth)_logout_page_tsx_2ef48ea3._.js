@@ -1,0 +1,3 @@
+module.exports=[38159,a=>{"use strict";var b=a.i(87924),c=a.i(38246),d=a.i(14033),e=a.i(23007);function f(){return(0,b.jsx)(e.default,{title:"Logged Out",description:"You have been successfully logged out",children:(0,b.jsxs)("div",{className:"space-y-4 text-center",children:[(0,b.jsx)("p",{className:"text-muted-foreground",children:"Thank you for visiting. See you again soon!"}),(0,b.jsx)(c.default,{href:"/signin",className:"w-full",children:(0,b.jsx)(d.Button,{className:"w-full",children:"Sign In Again"})})]})})}a.s(["default",()=>f])}];
+
+//# sourceMappingURL=apps_portal_app_%28auth%29_logout_page_tsx_2ef48ea3._.js.map

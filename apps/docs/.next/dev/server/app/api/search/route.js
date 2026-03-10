@@ -1,0 +1,13 @@
+var R=require("../../../chunks/[turbopack]_runtime.js")("server/app/api/search/route.js")
+R.c("server/chunks/[root-of-the-server]__6a3a1f70._.js")
+R.c("server/chunks/node_modules_next_dist_413a818d._.js")
+R.c("server/chunks/node_modules_lucide-react_dist_esm_icons_index_3f2f8181.js")
+R.c("server/chunks/node_modules_lucide-react_dist_esm_icons_e351383d._.js")
+R.c("server/chunks/node_modules_lucide-react_dist_esm_aeebe18d._.js")
+R.c("server/chunks/node_modules_micromark-core-commonmark_dev_lib_1c8db1e0._.js")
+R.c("server/chunks/node_modules_@orama_orama_dist_esm_678afc21._.js")
+R.c("server/chunks/node_modules_88ecd156._.js")
+R.c("server/chunks/[root-of-the-server]__15aad5f9._.js")
+R.c("server/chunks/apps_docs__next-internal_server_app_api_search_route_actions_8f4664e7.js")
+R.m("[project]/node_modules/next/dist/esm/build/templates/app-route.js { INNER_APP_ROUTE => \"[project]/apps/docs/app/api/search/route.ts [app-route] (ecmascript)\" } [app-route] (ecmascript)")
+module.exports=R.m("[project]/node_modules/next/dist/esm/build/templates/app-route.js { INNER_APP_ROUTE => \"[project]/apps/docs/app/api/search/route.ts [app-route] (ecmascript)\" } [app-route] (ecmascript)").exports

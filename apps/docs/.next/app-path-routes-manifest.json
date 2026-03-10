@@ -1,0 +1,12 @@
+{
+  "/(home)/page": "/",
+  "/_global-error/page": "/_global-error",
+  "/_not-found/page": "/_not-found",
+  "/api/search/route": "/api/search",
+  "/docs/[[...slug]]/page": "/docs/[[...slug]]",
+  "/favicon.ico/route": "/favicon.ico",
+  "/llms-full.txt/route": "/llms-full.txt",
+  "/llms.mdx/docs/[[...slug]]/route": "/llms.mdx/docs/[[...slug]]",
+  "/llms.txt/route": "/llms.txt",
+  "/og/docs/[...slug]/route": "/og/docs/[...slug]"
+}
