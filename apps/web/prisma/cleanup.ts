@@ -9,12 +9,12 @@ async function main() {
       OR: [
         { authentikId: { startsWith: "dummy-" } },
         { email: { endsWith: "@university.edu" } },
-        { name: { startsWith: "Dummy User" } }
+        { name: { startsWith: "Dummy User" } },
       ],
       // SAFETY: Never delete the real admin
       NOT: {
-        email: "sujit@binarysquad.org"
-      }
+        email: "sujit@binarysquad.org",
+      },
     },
   });
 

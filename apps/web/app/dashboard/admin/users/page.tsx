@@ -2,7 +2,16 @@ import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { User as PrismaUser, Role } from "@prisma/client";
-import { Mail, MoreVertical, Search, Filter, Briefcase, GraduationCap, AlertCircle, Database } from "lucide-react";
+import {
+  Mail,
+  MoreVertical,
+  Search,
+  Filter,
+  Briefcase,
+  GraduationCap,
+  AlertCircle,
+  Database,
+} from "lucide-react";
 
 // Explicit Type for our User with all fields from Prisma
 type UserWithProfile = PrismaUser;
@@ -20,14 +29,17 @@ export default async function AdminUsersPage() {
     });
   } catch (e) {
     console.error("Database error:", e);
-    error = "Could not fetch users. Your database might not be ready or the 'users' table is missing.";
+    error =
+      "Could not fetch users. Your database might not be ready or the 'users' table is missing.";
   }
 
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight text-foreground">User Management</h1>
+          <h1 className="text-3xl font-bold tracking-tight text-foreground">
+            User Management
+          </h1>
           <p className="text-muted-foreground">
             View and manage all registered users in the system.
           </p>
@@ -46,21 +58,30 @@ export default async function AdminUsersPage() {
       {error ? (
         <div className="p-8 rounded-xl border-2 border-dashed border-red-200 bg-red-50 text-center space-y-3">
           <AlertCircle className="mx-auto text-red-500" size={40} />
-          <h2 className="text-lg font-semibold text-red-900">Database Connection Issue</h2>
+          <h2 className="text-lg font-semibold text-red-900">
+            Database Connection Issue
+          </h2>
           <p className="text-red-700 max-w-md mx-auto">{error}</p>
           <div className="pt-4 flex flex-col gap-2 items-center">
-            <p className="text-xs text-red-600 font-semibold uppercase tracking-wider">Run this command to fix:</p>
-            <code className="bg-white px-4 py-2 rounded border border-red-200 text-sm text-red-600 font-mono shadow-sm">make setup</code>
+            <p className="text-xs text-red-600 font-semibold uppercase tracking-wider">
+              Run this command to fix:
+            </p>
+            <code className="bg-white px-4 py-2 rounded border border-red-200 text-sm text-red-600 font-mono shadow-sm">
+              make setup
+            </code>
           </div>
         </div>
       ) : (
         <>
           <div className="flex gap-4 items-center">
             <div className="relative flex-1">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" size={18} />
-              <input 
-                type="text" 
-                placeholder="Search users..." 
+              <Search
+                className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground"
+                size={18}
+              />
+              <input
+                type="text"
+                placeholder="Search users..."
                 className="w-full pl-10 pr-4 py-2 rounded-md border bg-background focus:ring-2 focus:ring-primary outline-none transition-all text-sm"
               />
             </div>
@@ -87,17 +108,28 @@ export default async function AdminUsersPage() {
                     <tr>
                       <td colSpan={5} className="p-20 text-center">
                         <div className="flex flex-col items-center gap-3">
-                          <Database className="text-muted-foreground/30" size={48} />
-                          <p className="text-muted-foreground italic">No users found. Run 'make seed' to add dummy data.</p>
+                          <Database
+                            className="text-muted-foreground/30"
+                            size={48}
+                          />
+                          <p className="text-muted-foreground italic">
+                            No users found. Run 'make seed' to add dummy data.
+                          </p>
                         </div>
                       </td>
                     </tr>
                   ) : (
                     users.map((u) => {
-                      const isDummy = u.authentikId.startsWith("dummy-") || u.authentikId.includes("-1") || u.authentikId.includes("-2");
-                      
+                      const isDummy =
+                        u.authentikId.startsWith("dummy-") ||
+                        u.authentikId.includes("-1") ||
+                        u.authentikId.includes("-2");
+
                       return (
-                        <tr key={u.id} className="hover:bg-muted/5 transition-colors group">
+                        <tr
+                          key={u.id}
+                          className="hover:bg-muted/5 transition-colors group"
+                        >
                           {/* User Column */}
                           <td className="p-4">
                             <div className="flex items-center gap-3">
@@ -106,14 +138,21 @@ export default async function AdminUsersPage() {
                                   {u.name.charAt(0)}
                                 </div>
                                 {isDummy && (
-                                  <span className="absolute -top-1 -right-1 w-3 h-3 bg-amber-500 border-2 border-white rounded-full" title="Generated Dummy Data" />
+                                  <span
+                                    className="absolute -top-1 -right-1 w-3 h-3 bg-amber-500 border-2 border-white rounded-full"
+                                    title="Generated Dummy Data"
+                                  />
                                 )}
                               </div>
                               <div>
                                 <div className="flex items-center gap-2">
-                                  <p className="font-semibold text-foreground leading-none">{u.name}</p>
+                                  <p className="font-semibold text-foreground leading-none">
+                                    {u.name}
+                                  </p>
                                   {isDummy && (
-                                    <span className="text-[9px] px-1.5 py-0.5 rounded bg-amber-100 text-amber-800 border border-amber-200 font-bold uppercase">Dummy</span>
+                                    <span className="text-[9px] px-1.5 py-0.5 rounded bg-amber-100 text-amber-800 border border-amber-200 font-bold uppercase">
+                                      Dummy
+                                    </span>
                                   )}
                                 </div>
                                 <p className="text-xs text-muted-foreground flex items-center gap-1 mt-1">
@@ -127,15 +166,23 @@ export default async function AdminUsersPage() {
                           {/* Role & Status Column */}
                           <td className="p-4">
                             <div className="space-y-1.5">
-                              <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold border uppercase tracking-wider ${
-                                u.role === Role.ADMIN ? 'bg-orange-100 text-orange-800 border-orange-200' :
-                                u.role === Role.ALUMNI ? 'bg-purple-100 text-purple-800 border-purple-200' :
-                                'bg-green-100 text-green-800 border-green-200'
-                              }`}>
+                              <span
+                                className={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold border uppercase tracking-wider ${
+                                  u.role === Role.ADMIN
+                                    ? "bg-orange-100 text-orange-800 border-orange-200"
+                                    : u.role === Role.ALUMNI
+                                      ? "bg-purple-100 text-purple-800 border-purple-200"
+                                      : "bg-green-100 text-green-800 border-green-200"
+                                }`}
+                              >
                                 {u.role}
                               </span>
-                              <div className={`flex items-center gap-1.5 text-[11px] ${u.isActive ? 'text-green-600' : 'text-red-600'}`}>
-                                <span className={`w-1.5 h-1.5 rounded-full ${u.isActive ? 'bg-green-600' : 'bg-red-600'}`} />
+                              <div
+                                className={`flex items-center gap-1.5 text-[11px] ${u.isActive ? "text-green-600" : "text-red-600"}`}
+                              >
+                                <span
+                                  className={`w-1.5 h-1.5 rounded-full ${u.isActive ? "bg-green-600" : "bg-red-600"}`}
+                                />
                                 {u.isActive ? "Account Active" : "Suspended"}
                               </div>
                             </div>
@@ -145,10 +192,15 @@ export default async function AdminUsersPage() {
                           <td className="p-4">
                             <div className="flex flex-col gap-1">
                               <div className="flex items-center gap-1.5 text-foreground font-medium">
-                                <GraduationCap size={14} className="text-muted-foreground" />
+                                <GraduationCap
+                                  size={14}
+                                  className="text-muted-foreground"
+                                />
                                 <span>{u.major || "Not set"}</span>
                               </div>
-                              <p className="text-xs text-muted-foreground pl-5">{u.year || "Year missing"}</p>
+                              <p className="text-xs text-muted-foreground pl-5">
+                                {u.year || "Year missing"}
+                              </p>
                             </div>
                           </td>
 
@@ -157,14 +209,21 @@ export default async function AdminUsersPage() {
                             {u.role === Role.ALUMNI ? (
                               <div className="flex flex-col gap-1">
                                 <div className="flex items-center gap-1.5 text-foreground font-medium">
-                                  <Briefcase size={14} className="text-muted-foreground" />
+                                  <Briefcase
+                                    size={14}
+                                    className="text-muted-foreground"
+                                  />
                                   <span>{u.company || "Self-employed"}</span>
                                 </div>
-                                <p className="text-xs text-muted-foreground pl-5">{u.location || "Global"}</p>
+                                <p className="text-xs text-muted-foreground pl-5">
+                                  {u.location || "Global"}
+                                </p>
                               </div>
                             ) : (
                               <span className="text-xs text-muted-foreground italic pl-1">
-                                {u.role === Role.ADMIN ? "System Administrator" : "Current Student"}
+                                {u.role === Role.ADMIN
+                                  ? "System Administrator"
+                                  : "Current Student"}
                               </span>
                             )}
                           </td>

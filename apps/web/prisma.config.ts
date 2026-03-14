@@ -10,6 +10,6 @@ export default defineConfig({
   datasource: {
     // Prefer DIRECT_URL for schema operations (migration/push)
     // Fall back to DATABASE_URL if direct isn't provided
-    url: process.env.DIRECT_URL || process.env.DATABASE_URL!, 
+    url: process.env.DIRECT_URL || process.env.DATABASE_URL!,
   },
 });
