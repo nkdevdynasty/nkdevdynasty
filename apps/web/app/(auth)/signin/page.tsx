@@ -1,7 +1,6 @@
 "use client";
 
 import { signIn, useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import AuthCard from "@/components/auth-card/auth-card";
@@ -9,9 +8,9 @@ import AuthCard from "@/components/auth-card/auth-card";
 export default function SignIn() {
   const { status } = useSession();
 
-  function handleSignIn() {
+  const handleSignIn = () => {
     signIn("authentik", { callbackUrl: "/dashboard" }, { prompt: "login" });
-  }
+  };
 
   return (
     <AuthCard title="Welcome Back" description="Sign in to your account">

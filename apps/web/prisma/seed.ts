@@ -4,23 +4,67 @@ import { prisma } from "../lib/prisma";
 async function main() {
   console.log("🌱 Seeding large dataset of dummy users (25+)...");
 
-  const majors = ["Computer Science", "Data Science", "Digital Media", "Information Systems", "Business Admin", "Cyber Security"];
-  const years = ["1st Year", "2nd Year", "3rd Year", "4th Year", "Class of 2020", "Class of 2021", "Class of 2022", "Class of 2023", "Class of 2024"];
-  const locations = ["New York, NY", "Austin, TX", "San Francisco, CA", "Seattle, WA", "Remote", "London, UK", "Bangalore, IN"];
-  const companies = ["Google", "Meta", "Amazon", "Startup Inc", "VibeDesign", "TechCorp", "Freelance"];
-  const skillsList = ["React", "Python", "SQL", "UI/UX", "Node.js", "TypeScript", "AWS", "Figma", "Docker", "Go"];
+  const majors = [
+    "Computer Science",
+    "Data Science",
+    "Digital Media",
+    "Information Systems",
+    "Business Admin",
+    "Cyber Security",
+  ];
+  const years = [
+    "1st Year",
+    "2nd Year",
+    "3rd Year",
+    "4th Year",
+    "Class of 2020",
+    "Class of 2021",
+    "Class of 2022",
+    "Class of 2023",
+    "Class of 2024",
+  ];
+  const locations = [
+    "New York, NY",
+    "Austin, TX",
+    "San Francisco, CA",
+    "Seattle, WA",
+    "Remote",
+    "London, UK",
+    "Bangalore, IN",
+  ];
+  const companies = [
+    "Google",
+    "Meta",
+    "Amazon",
+    "Startup Inc",
+    "VibeDesign",
+    "TechCorp",
+    "Freelance",
+  ];
+  const skillsList = [
+    "React",
+    "Python",
+    "SQL",
+    "UI/UX",
+    "Node.js",
+    "TypeScript",
+    "AWS",
+    "Figma",
+    "Docker",
+    "Go",
+  ];
 
   const generateUser = (i: number) => {
     const isAlumni = i > 12;
     const role = isAlumni ? Role.ALUMNI : Role.STUDENT;
     const major = majors[i % majors.length];
     const year = years[i % years.length];
-    
+
     // Pick 3 random skills
     const skills = [
       skillsList[i % skillsList.length],
       skillsList[(i + 2) % skillsList.length],
-      skillsList[(i + 5) % skillsList.length]
+      skillsList[(i + 5) % skillsList.length],
     ];
 
     return {

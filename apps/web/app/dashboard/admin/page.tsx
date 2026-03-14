@@ -1,7 +1,13 @@
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
-import { Users, GraduationCap, Briefcase, Activity, ArrowUpRight } from "lucide-react";
+import {
+  Users,
+  GraduationCap,
+  Briefcase,
+  Activity,
+  ArrowUpRight,
+} from "lucide-react";
 import Link from "next/link";
 
 export default async function AdminDashboard() {
@@ -13,10 +19,34 @@ export default async function AdminDashboard() {
   });
 
   const stats = [
-    { label: "Total Users", value: users.length, icon: <Users size={20} />, color: "text-blue-600", bg: "bg-blue-50" },
-    { label: "Students", value: users.filter(u => u.role === 'STUDENT').length, icon: <GraduationCap size={20} />, color: "text-green-600", bg: "bg-green-50" },
-    { label: "Alumni", value: users.filter(u => u.role === 'ALUMNI').length, icon: <Briefcase size={20} />, color: "text-purple-600", bg: "bg-purple-50" },
-    { label: "Active Now", value: users.filter(u => u.isActive).length, icon: <Activity size={20} />, color: "text-orange-600", bg: "bg-orange-50" },
+    {
+      label: "Total Users",
+      value: users.length,
+      icon: <Users size={20} />,
+      color: "text-blue-600",
+      bg: "bg-blue-50",
+    },
+    {
+      label: "Students",
+      value: users.filter((u) => u.role === "STUDENT").length,
+      icon: <GraduationCap size={20} />,
+      color: "text-green-600",
+      bg: "bg-green-50",
+    },
+    {
+      label: "Alumni",
+      value: users.filter((u) => u.role === "ALUMNI").length,
+      icon: <Briefcase size={20} />,
+      color: "text-purple-600",
+      bg: "bg-purple-50",
+    },
+    {
+      label: "Active Now",
+      value: users.filter((u) => u.isActive).length,
+      icon: <Activity size={20} />,
+      color: "text-orange-600",
+      bg: "bg-orange-50",
+    },
   ];
 
   return (
@@ -28,21 +58,27 @@ export default async function AdminDashboard() {
             Welcome back, {session.user.name}. Here's what's happening.
           </p>
         </div>
-        <Link href="/dashboard/admin/users" className="flex items-center gap-2 text-sm font-medium text-primary hover:underline">
+        <Link
+          href="/dashboard/admin/users"
+          className="flex items-center gap-2 text-sm font-medium text-primary hover:underline"
+        >
           View all users <ArrowUpRight size={16} />
         </Link>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {stats.map((s) => (
-          <div key={s.label} className="rounded-xl border bg-card p-6 shadow-sm flex items-start justify-between">
+          <div
+            key={s.label}
+            className="rounded-xl border bg-card p-6 shadow-sm flex items-start justify-between"
+          >
             <div>
-              <p className="text-sm font-medium text-muted-foreground">{s.label}</p>
+              <p className="text-sm font-medium text-muted-foreground">
+                {s.label}
+              </p>
               <p className="text-3xl font-bold mt-2">{s.value}</p>
             </div>
-            <div className={`p-3 ${s.bg} ${s.color} rounded-lg`}>
-              {s.icon}
-            </div>
+            <div className={`p-3 ${s.bg} ${s.color} rounded-lg`}>{s.icon}</div>
           </div>
         ))}
       </div>
@@ -89,7 +125,9 @@ export default async function AdminDashboard() {
             <div>
               <div className="flex justify-between text-sm mb-2">
                 <span>Authentik Sync</span>
-                <span className="text-green-600 font-medium">Last synced 2m ago</span>
+                <span className="text-green-600 font-medium">
+                  Last synced 2m ago
+                </span>
               </div>
               <div className="w-full bg-muted rounded-full h-2">
                 <div className="bg-blue-500 h-2 rounded-full w-[100%]" />
