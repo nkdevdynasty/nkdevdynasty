@@ -11,8 +11,14 @@
     "start": "next start",
     "lint": "eslint app --ext .ts,.tsx,.js,.jsx",
     "typecheck": "tsc --noEmit",
+    "prisma": "prisma",
     "prisma:generate": "prisma generate",
-    "prisma:push": "prisma db push"
+    "prisma:push": "prisma db push",
+    "prisma:seed": "prisma db seed",
+    "prisma:cleanup": "tsx prisma/cleanup.ts"
+  },
+  "prisma": {
+    "seed": "tsx prisma/seed.ts"
   },
   "dependencies": {
     "@prisma/adapter-pg": "^7.4.2",
@@ -49,6 +55,7 @@
     "@typescript-eslint/parser": "^8.57.0",
     "eslint": "^9.39.4",
     "eslint-config-next": "16.1.6",
+    "tsx": "^4.19.2",
     "typescript": "^5"
   }
 }

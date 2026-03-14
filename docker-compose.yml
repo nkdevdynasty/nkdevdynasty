@@ -1,0 +1,52 @@
+services:
+  db:
+    image: postgres:17-alpine
+    restart: always
+    environment:
+      POSTGRES_USER: ${DATABASE_USER:-postgres}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD:-password}
+      POSTGRES_DB: ${DATABASE_NAME:-nkdevdynasty}
+    ports:
+      - "${DATABASE_PORT:-5432}:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    env_file:
+      - apps/web/.env
+    volumes:
+      - .:/app
+      - /app/node_modules
+      - /app/apps/web/node_modules
+      - /app/apps/docs/node_modules
+    ports:
+      - "3000:3000"
+    # Note: DATABASE_URL, NEXTAUTH_SECRET, etc. are now loaded automatically from env_file
+    depends_on:
+      - db
+    command: pnpm turbo dev --filter=@repo/web
+
+  docs:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    env_file:
+      - apps/web/.env
+    volumes:
+      - .:/app
+      - /app/node_modules
+      - /app/apps/web/node_modules
+      - /app/apps/docs/node_modules
+    ports:
+      - "3001:3001"
+    environment:
+      - NEXT_PUBLIC_DOCS_URL=http://localhost:3001
+    depends_on:
+      - web
+    command: pnpm turbo dev --filter=@repo/docs
+
+volumes:
+  postgres_data:

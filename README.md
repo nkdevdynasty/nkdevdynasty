@@ -1,74 +1,112 @@
 # NKDevDynasty Monorepo
 
-This project is a high-performance monorepo built with **Turborepo**, **pnpm**, and **Next.js**.
+A high-performance, containerized monorepo built with **Turborepo**, **pnpm**, **Next.js 16**, and **Prisma**. This project integrates **Authentik** for identity management and **Fumadocs** for documentation.
 
-## Project Structure
+---
+
+## 🏗️ Project Structure
 
 ```text
 ├── apps/
-│   ├── web/          # Main Next.js application (Port 3000)
+│   ├── web/          # Main Next.js application (React 19, Tailwind v4)
 │   └── docs/         # Fumadocs documentation site (Port 3001)
 ├── packages/
-│   ├── ui/           # Shared React components
+│   ├── ui/           # Shared React component library
 │   ├── typescript-config/ # Shared TS configurations
 │   └── eslint-config/     # Shared ESLint rules
-├── turbo.json        # Turborepo configuration
+├── turbo.json        # Turborepo build pipeline configuration
 └── pnpm-workspace.yaml # pnpm workspace definition
 ```
 
-## Unified Single-Port Setup
+---
 
-We have configured the monorepo so that both the main application and the documentation can be accessed through a single port (**3000**) during development.
+## 🌐 Unified Access
 
-### How it works:
+The project is configured to run behind a single port for a seamless developer experience.
 
-- **Web App (`apps/web`)**: Runs on `http://localhost:3000`.
-- **Docs App (`apps/docs`)**: Runs on `http://localhost:3001` but is configured with `basePath: '/docs'`.
-- **Proxying**: The Web App uses Next.js **Rewrites** to proxy any requests starting with `/docs` to the Docs App.
+- **Web Application**: [http://localhost:3000](http://localhost:3000)
+- **Documentation**: [http://localhost:3000/docs](http://localhost:3000/docs) (Proxied via Next.js rewrites)
 
-### Key Configuration Points:
+---
 
-- `apps/docs/next.config.mjs`: Sets `basePath: '/docs'`.
-- `apps/web/next.config.ts`: Configures `rewrites` to point `/docs/:path*` to `http://localhost:3001/docs/:path*`.
-- `apps/docs/lib/source.ts`: Sets `baseUrl: '/'` (Fumadocs handles the prefix automatically via `basePath`).
+## 🚀 Getting Started (Docker Environment)
 
-## Getting Started
+We use **Docker** and a **Makefile** to ensure every developer has an identical, stable environment.
 
 ### 1. Prerequisites
+- **Docker Desktop** (or Docker Engine with Compose)
+- **Terminal**: [Windows Terminal](https://aka.ms/terminal) is highly recommended for proper emoji and color rendering.
 
-- **pnpm** (Recommended version: 10.x)
-- **Node.js** (>= 22)
+### 2. Environment Configuration
+Create an `.env` file in `apps/web/.env` with the following keys:
+```env
+# Database
+DATABASE_URL="postgresql://..." # Supabase Pooler or Local DB
+DIRECT_URL="postgresql://..."   # REQUIRED for migrations/push (Direct port 5432)
 
-### 2. Install Dependencies
+# NextAuth
+NEXTAUTH_SECRET="your-secret"
+NEXTAUTH_URL="http://localhost:3000"
 
-```bash
-pnpm install
+# Authentik
+AUTHENTIK_URL="https://..."
+AUTHENTIK_API_TOKEN="..."
+AUTHENTIK_ISSUER_URL="..."
+AUTHENTIK_CLIENT_ID="..."
+AUTHENTIK_CLIENT_SECRET="..."
 ```
 
-### 3. Run Development Mode
+### 3. Quick Start Commands
 
-Start both applications simultaneously:
+| Command | Description |
+| :--- | :--- |
+| `make setup-core` | **Start Fresh**: Services + Schema syncing. No dummy data. |
+| `make setup-full` | **Full Experience**: Services + Schema + 25+ rich dummy users. |
+| `make up` | Resume services in the background. |
+| `make down` | **Safe Stop**: Automatically cleans dummy data and stops containers. |
+| `make force-reset` | **Fix Issues**: Forcefully removes stuck containers/orphans. |
 
-```bash
-pnpm dev
-```
+---
 
-Once running, you can access the entire project at:
+## 🛠️ Developer Workflow
 
-- **Main Web Application**: [http://localhost:3000](http://localhost:3000)
-- **Documentation**: [http://localhost:3000/docs](http://localhost:3000/docs)
+### 🧹 Dummy Data Management
+The project features a smart data lifecycle to keep your database clean.
+- **Seeding**: `make setup-full` or `make seed` adds 25+ users (12 Students, 13 Alumni) with rich profiles (Major, Year, Company, Bio, Skills).
+- **Cleanup**: `make down` or `make clean` removes **only** the generated dummy data.
+- **Safety**: Your real Admin account (e.g., `sujit@binarysquad.org`) is protected and **never** deleted by cleanup scripts.
 
-_Note: The Docs app is also directly available at [http://localhost:3001/docs](http://localhost:3001/docs) if needed._
+### ⚙️ Full Command List
+| Command | Description |
+| :--- | :--- |
+| `make build` | Rebuild all Docker images from scratch. |
+| `make logs` | View real-time output from all services. |
+| `make push` | Force-push schema changes to the database (bypasses migration history). |
+| `make migrate` | Run Prisma development migrations. |
+| `make generate` | Regenerate the Prisma Client (run this if you see type errors). |
+| `make nuke` | **Warning**: Wipes the entire database and restarts from scratch. |
 
-### 4. Other Commands
+---
 
-- **Build**: `pnpm build` (Builds all apps and packages)
-- **Lint**: `pnpm lint` (Checks for linting errors)
-- **Typecheck**: `pnpm typecheck` (Checks TypeScript types)
-- **Prisma**: `pnpm --filter @repo/web prisma:generate` (Generate Prisma client)
+## 🛡️ Architecture Highlights
 
-## Development Workflow
+### **Identity & RBAC**
+- **NextAuth v5**: Handles session management and OIDC flow.
+- **Authentik Integration**: Centralized auth. Roles (`ADMIN`, `STUDENT`, `ALUMNI`) are mapped from Authentik groups to the local Prisma database.
+- **Custom Hook**: Use the `useRBAC()` hook for client-side permission checks.
 
-- **Adding Docs**: New documentation files should be added to `apps/docs/content/docs/`.
-- **Shared Components**: Reusable UI components should be placed in `packages/ui` to be used by both `web` and `docs`.
-- **Port Management**: Ports are explicitly set in the `package.json` scripts of each app (`-p 3000` and `-p 3001`) to prevent conflicts.
+### **Database (Prisma)**
+- **Supabase Support**: Configured to work with Supabase Transaction Poolers while using `DIRECT_URL` for schema structural changes.
+- **Standalone Client**: Prisma is marked as an external package in `next.config.ts` to ensure compatibility with **Turbopack**.
+
+### **Documentation**
+- Built with **Fumadocs** for a highly customizable, MDX-based documentation experience. Accessible at the `/docs` path of the main application.
+
+---
+
+## 🧪 Local Development (No Docker)
+
+1.  **Install Dependencies**: `pnpm install`
+2.  **Generate Client**: `pnpm --filter @repo/web prisma:generate`
+3.  **Run Dev**: `pnpm dev`
+4.  **Local Access**: Web at `:3000`, Docs at `:3001` (basePath: `/docs`).

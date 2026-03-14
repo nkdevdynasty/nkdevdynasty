@@ -1,0 +1,13 @@
+node_modules
+.next
+.turbo
+out
+dist
+*.log
+.env
+.env.local
+.git
+docker-compose.yml
+Dockerfile
+Makefile
+README.md
