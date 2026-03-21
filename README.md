@@ -29,14 +29,14 @@ The project is configured to run behind a single port for a seamless developer e
 
 ---
 
-## 🚀 Getting Started (Docker Environment)
+## 🚀 Getting Started (Optimized Environment)
 
-We use **Docker** and a **Makefile** to ensure every developer has an identical, stable environment.
+We recommend the **Optimized Local Mode** for daily development to save system memory.
 
 ### 1. Prerequisites
 
-- **Docker Desktop** (or Docker Engine with Compose)
-- **Terminal**: [Windows Terminal](https://aka.ms/terminal) is highly recommended for proper emoji and color rendering.
+- **Node.js 22+** and **pnpm 10+**
+- **Docker Desktop** (Required for database if not using remote Supabase)
 
 ### 2. Environment Configuration
 
@@ -59,38 +59,37 @@ AUTHENTIK_CLIENT_ID="..."
 AUTHENTIK_CLIENT_SECRET="..."
 ```
 
-### 3. Quick Start Commands
+### 3. Core Commands
 
-| Command            | Description                                                          |
-| :----------------- | :------------------------------------------------------------------- |
-| `make setup-core`  | **Start Fresh**: Services + Schema syncing. No dummy data.           |
-| `make setup-full`  | **Full Experience**: Services + Schema + 25+ rich dummy users.       |
-| `make up`          | Resume services in the background.                                   |
-| `make down`        | **Safe Stop**: Automatically cleans dummy data and stops containers. |
-| `make force-reset` | **Fix Issues**: Forcefully removes stuck containers/orphans.         |
+| Command           | Description                                                          |
+| :---------------- | :------------------------------------------------------------------- |
+| `make dev`        | **Recommended**: Start project locally (Low Memory, High Speed).     |
+| `make setup-core` | **Docker Fresh**: Services + Schema syncing (No dummy data).         |
+| `make setup-full` | **Docker Full**: Services + Schema + 25+ rich dummy users.           |
+| `make down`       | **Safe Stop**: Automatically cleans dummy data and stops containers. |
 
 ---
 
-## 🛠️ Developer Workflow
+## 🛠️ Recent Updates (March 21, 2026)
 
-### 🧹 Dummy Data Management
+### 💎 Full CRUD with RBAC
 
-The project features a smart data lifecycle to keep your database clean.
+- **User Management**: Admins can now **Add, Edit, and Delete** users directly from the dashboard.
+- **Bi-directional Sync**: Changes made in the dashboard are automatically synchronized between the **Prisma Database** and the **Authentik OIDC Server**.
+- **Security**: Robust RBAC enforcement ensures only users with the `ADMIN` role can access management APIs.
 
-- **Seeding**: `make setup-full` or `make seed` adds 25+ users (12 Students, 13 Alumni) with rich profiles (Major, Year, Company, Bio, Skills).
-- **Cleanup**: `make down` or `make clean` removes **only** the generated dummy data.
-- **Safety**: Your real Admin account (e.g., `sujit@binarysquad.org`) is protected and **never** deleted by cleanup scripts.
+### 🎨 UI/UX Modernization (Shadcn UI)
 
-### ⚙️ Full Command List
+- **Component Migration**: All dashboard pages (Admin, Student, Alumni) have been refactored to use **Shadcn UI** components.
+- **Enhanced Visuals**: Integrated `Table`, `Dialog`, `DropdownMenu`, `Select`, `Card`, and `Progress` components for a professional look.
+- **Responsive Design**: Modals and layouts are now fully optimized for all screen sizes, including small laptop screens.
+- **Global Notifications**: Integrated `react-hot-toast` for real-time feedback on all actions (loading, success, and error states).
 
-| Command         | Description                                                             |
-| :-------------- | :---------------------------------------------------------------------- |
-| `make build`    | Rebuild all Docker images from scratch.                                 |
-| `make logs`     | View real-time output from all services.                                |
-| `make push`     | Force-push schema changes to the database (bypasses migration history). |
-| `make migrate`  | Run Prisma development migrations.                                      |
-| `make generate` | Regenerate the Prisma Client (run this if you see type errors).         |
-| `make nuke`     | **Warning**: Wipes the entire database and restarts from scratch.       |
+### ⚙️ Performance & Stability
+
+- **Optimized Workflow**: Added `make dev` to bypass Docker virtualization for Node.js, saving **~2GB of RAM** on Windows.
+- **Turbopack Fixes**: Resolved module resolution issues with `@hookform/resolvers` and `zod` specifically for Next.js Turbopack.
+- **Authentik API Robustness**: Improved group matching logic (case-insensitive) and added fallback mechanisms for restricted tokens.
 
 ---
 
@@ -107,15 +106,10 @@ The project features a smart data lifecycle to keep your database clean.
 - **Supabase Support**: Configured to work with Supabase Transaction Poolers while using `DIRECT_URL` for schema structural changes.
 - **Standalone Client**: Prisma is marked as an external package in `next.config.ts` to ensure compatibility with **Turbopack**.
 
-### **Documentation**
-
-- Built with **Fumadocs** for a highly customizable, MDX-based documentation experience. Accessible at the `/docs` path of the main application.
-
 ---
 
-## 🧪 Local Development (No Docker)
+## 🧹 Dummy Data Management
 
-1.  **Install Dependencies**: `pnpm install`
-2.  **Generate Client**: `pnpm --filter @repo/web prisma:generate`
-3.  **Run Dev**: `pnpm dev`
-4.  **Local Access**: Web at `:3000`, Docs at `:3001` (basePath: `/docs`).
+- **Seeding**: `make setup-full` or `make seed` adds 25+ users with rich profiles.
+- **Cleanup**: `make down` or `make clean` removes **only** generated dummy data.
+- **Safety**: Real Admin accounts are protected from deletion scripts.

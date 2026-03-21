@@ -2,6 +2,7 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   output: "standalone",
+  transpilePackages: ["@hookform/resolvers"],
   serverExternalPackages: ["@prisma/client", "prisma"],
   async rewrites() {
     return [

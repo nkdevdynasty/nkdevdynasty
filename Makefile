@@ -1,4 +1,4 @@
-.PHONY: help setup-core setup-full up down build logs shell migrate push generate seed clean nuke force-reset restart
+.PHONY: help setup-core setup-full up down build logs shell migrate push generate seed clean nuke force-reset restart dev
 
 # --- Icons ---
 E_HELP=📋
@@ -17,20 +17,22 @@ E_WARN=⚠️
 
 help:
 	@echo "$(E_HELP) Available commands:"
-	@echo "  $(E_START) make setup-core - START PROJECT: Just services + schema (NO dummy data)"
-	@echo "  $(E_START) make setup-full - FULL START: Services + schema + 25 dummy users"
+	@echo "  $(E_START) make dev        - [OPTIMIZED] RUN PROJECT LOCALLY (Low Memory, High Speed)"
+	@echo "  $(E_START) make setup-core - Docker setup (No dummy data)"
+	@echo "  $(E_START) make setup-full - Docker setup (With dummy users)"
 	@echo "  $(E_UP) make up         - Start all services in the background"
-	@echo "  $(E_STOP) make down       - CLEAN & STOP: Remove dummy data and stop services"
-	@echo "  $(E_BUILD) make build      - Rebuild and start all services"
+	@echo "  $(E_STOP) make down       - CLEAN & STOP services"
 	@echo "  $(E_LOGS) make logs       - View real-time logs"
-	@echo "  $(E_DB) make migrate    - Run Prisma migrations"
-	@echo "  ⬆️  make push       - PUSH schema changes to database"
-	@echo "  $(E_DB) make generate   - Generate Prisma client"
-	@echo "  🌱 make seed       - Populate database with dummy data"
-	@echo "  $(E_CLEAN) make clean      - REMOVE only dummy data (keeps real admin)"
-	@echo "  $(E_WARN) make force-reset - FORCE clear all stuck containers"
-	@echo "  ☢️  make nuke       - RESET the entire database (wipe all data)"
-	@echo "  🔄 make restart    - Restart all services"
+	@echo "  $(E_DB) make generate   - Generate Prisma client locally"
+	@echo "  ☢️  make nuke       - RESET the database"
+
+dev:
+	@echo "$(E_START) Starting project in Optimized Local Mode..."
+	@echo "$(E_WAIT) Syncing dependencies and Prisma..."
+	pnpm install --silent
+	pnpm --filter @repo/web run prisma:generate
+	@echo "$(E_CHECK) System ready. Launching Web and Docs..."
+	pnpm dev
 
 setup-core:
 	@echo "$(E_START) Starting core project (No dummy data)..."

@@ -24,10 +24,13 @@ services:
       - /app/apps/docs/node_modules
     ports:
       - "3000:3000"
-    # Note: DATABASE_URL, NEXTAUTH_SECRET, etc. are now loaded automatically from env_file
     depends_on:
       - db
-    command: pnpm turbo dev --filter=@repo/web
+    command: pnpm --filter @repo/web run dev
+    deploy:
+      resources:
+        limits:
+          memory: 2G
 
   docs:
     build:
@@ -46,7 +49,11 @@ services:
       - NEXT_PUBLIC_DOCS_URL=http://localhost:3001
     depends_on:
       - web
-    command: pnpm turbo dev --filter=@repo/docs
+    command: pnpm --filter @repo/docs run dev
+    deploy:
+      resources:
+        limits:
+          memory: 1G
 
 volumes:
   postgres_data:
