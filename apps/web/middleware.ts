@@ -38,14 +38,24 @@ export async function middleware(req: NextRequest) {
   const requiredRoles = getRequiredRoles(pathname);
   if (!requiredRoles) return NextResponse.next();
 
-  // NextAuth v5 uses "authjs" as the cookie prefix, not "next-auth"
-  const token = await getToken({
+  // NextAuth v5 uses __Secure-authjs.session-token on HTTPS (Vercel)
+  // Try both cookie names to handle all cases
+  let token = await getToken({
     req,
     secret: process.env.AUTH_SECRET!,
-    salt: req.nextUrl.protocol === "https:"
-      ? "__Secure-authjs.session-token"
-      : "authjs.session-token",
+    secureCookie: true,
+    cookieName: "__Secure-authjs.session-token",
   });
+
+  // Fallback: try without Secure prefix (for local dev on HTTP)
+  if (!token) {
+    token = await getToken({
+      req,
+      secret: process.env.AUTH_SECRET!,
+      secureCookie: false,
+      cookieName: "authjs.session-token",
+    });
+  }
 
   if (!token) {
     const url = new URL("/signin", req.url);
