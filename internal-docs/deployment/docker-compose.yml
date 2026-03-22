@@ -4,9 +4,9 @@
 # Brings up: PostgreSQL, Redis, Authentik (SSO), Strapi (CMS), and the web app.
 # All services share a single PostgreSQL instance.
 #
-# Usage:
-#   1. Copy .env.example to .env and fill in the values
-#   2. docker compose up -d
+# Usage (run from repo root):
+#   1. Create a .env file in this folder with production values
+#   2. docker compose -f internal-docs/deployment/docker-compose.yml up -d
 #
 # The web app service is commented out — uncomment when ready to deploy.
 # =============================================================================
@@ -25,7 +25,7 @@ services:
       POSTGRES_DB: authentik
     volumes:
       - postgres_data:/var/lib/postgresql/data
-      - ./docker/init-databases.sql:/docker-entrypoint-initdb.d/init-databases.sql:ro
+      - ./init-databases.sql:/docker-entrypoint-initdb.d/init-databases.sql:ro
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ${PG_USER:-postgres}"]
       interval: 10s
@@ -130,8 +130,8 @@ services:
   # ---------------------------------------------------------------------------
   # web:
   #   build:
-  #     context: .
-  #     dockerfile: Dockerfile
+  #     context: ../../
+  #     dockerfile: internal-docs/deployment/Dockerfile
   #   restart: unless-stopped
   #   environment:
   #     DATABASE_URL: postgresql://${PG_USER:-postgres}:${PG_PASSWORD}@postgres:5432/nkdevdynasty

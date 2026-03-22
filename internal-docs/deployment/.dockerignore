@@ -17,12 +17,11 @@ dist
 .github
 .vscode
 
-# Docker files (avoid recursive copy)
+# Docker and docs (not needed in build)
 docker-compose*.yml
 Dockerfile
 Makefile
-
-# Docs
+internal-docs
 README.md
 API_DOC.MD
 GEMINI.md
