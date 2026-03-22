@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
-import { auth } from "@/auth";
+import type { NextRequest } from "next/server";
+import { getToken } from "next-auth/jwt";
 
 const ROUTE_PERMISSIONS: Record<string, string[]> = {
   "/dashboard/admin": ["admin"],
@@ -17,7 +18,7 @@ function getRequiredRoles(pathname: string): string[] | null {
   return null;
 }
 
-export default auth((req) => {
+export async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
 
   // Skip auth pages and NextAuth internals
@@ -37,27 +38,31 @@ export default auth((req) => {
   const requiredRoles = getRequiredRoles(pathname);
   if (!requiredRoles) return NextResponse.next();
 
-  // req.auth is the session from NextAuth v5
-  const session = req.auth;
+  // NextAuth v5 uses "authjs" as the cookie prefix, not "next-auth"
+  const token = await getToken({
+    req,
+    secret: process.env.AUTH_SECRET!,
+    salt: req.nextUrl.protocol === "https:"
+      ? "__Secure-authjs.session-token"
+      : "authjs.session-token",
+  });
 
-  if (!session) {
+  if (!token) {
     const url = new URL("/signin", req.url);
     url.searchParams.set("callbackUrl", pathname);
     return NextResponse.redirect(url);
   }
 
-  const role = session.user?.role as string;
-
-  if (!requiredRoles.includes(role)) {
+  if (!requiredRoles.includes(token.role as string)) {
     return NextResponse.redirect(new URL("/auth/unauthorized", req.url));
   }
 
   const headers = new Headers(req.headers);
-  headers.set("x-user-role", role);
-  headers.set("x-user-id", (session.user?.authentikId as string) || "");
+  headers.set("x-user-role", token.role as string);
+  headers.set("x-user-id", (token.authentikId as string) || "");
 
   return NextResponse.next({ request: { headers } });
-});
+}
 
 export const config = {
   matcher: ["/((?!_next/static|_next/image|favicon.ico|api/auth).*)"],
