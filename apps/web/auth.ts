@@ -11,6 +11,7 @@ type AuthentikProfile = {
 
 export const { auth, handlers, signIn, signOut } = NextAuth({
   trustHost: true,
+  debug: process.env.NODE_ENV !== "production",
   providers: [
     {
       id: "authentik",
