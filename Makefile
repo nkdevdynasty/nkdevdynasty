@@ -1,136 +1,73 @@
-.PHONY: help setup-core setup-full up down build logs shell migrate push generate seed clean nuke force-reset restart dev
+.PHONY: help dev generate push seed clean nuke up down logs ps
 
-# --- Icons ---
-E_HELP=📋
-E_START=🚀
-E_WAIT=⏳
-E_CHECK=✅
-E_STOP=🛑
-E_CLEAN=🧹
-E_DB=⚙️
-E_UP=🆙
-E_BUILD=🏗️
-E_LOGS=📜
-E_WEB=🌐
-E_DOCS=📚
-E_WARN=⚠️
+# =============================================================================
+# NKDevDynasty — College Alumni & Question Bank Platform
+# =============================================================================
+# Dev:  make dev       (uses shared remote Postgres/Authentik/Strapi)
+# Prod: make up        (full self-hosted stack via Docker)
+# =============================================================================
 
 help:
-	@echo "$(E_HELP) Available commands:"
-	@echo "  $(E_START) make dev        - [OPTIMIZED] RUN PROJECT LOCALLY (Low Memory, High Speed)"
-	@echo "  $(E_START) make setup-core - Docker setup (No dummy data)"
-	@echo "  $(E_START) make setup-full - Docker setup (With dummy users)"
-	@echo "  $(E_UP) make up         - Start all services in the background"
-	@echo "  $(E_STOP) make down       - CLEAN & STOP services"
-	@echo "  $(E_LOGS) make logs       - View real-time logs"
-	@echo "  $(E_DB) make generate   - Generate Prisma client locally"
-	@echo "  ☢️  make nuke       - RESET the database"
+	@echo ""
+	@echo "  Development (native — uses shared team infra)"
+	@echo "  ─────────────────────────────────────────────"
+	@echo "  make dev         Install deps, generate Prisma, start dev server"
+	@echo "  make generate    Regenerate Prisma client"
+	@echo "  make push        Push schema to database"
+	@echo "  make seed        Seed dummy data"
+	@echo "  make clean       Remove dummy data"
+	@echo "  make nuke        Reset database completely"
+	@echo ""
+	@echo "  Production (self-hosted Docker stack)"
+	@echo "  ─────────────────────────────────────────────"
+	@echo "  make up          Start full stack (Postgres, Authentik, Strapi)"
+	@echo "  make down        Stop all services"
+	@echo "  make logs        Stream all logs"
+	@echo "  make ps          Show running services"
+	@echo ""
+
+# --- Development (native) ----------------------------------------------------
 
 dev:
-	@echo "$(E_START) Starting project in Optimized Local Mode..."
-	@echo "$(E_WAIT) Syncing dependencies and Prisma..."
+	@echo "Installing dependencies..."
 	pnpm install --silent
 	pnpm --filter @repo/web run prisma:generate
-	@echo "$(E_CHECK) System ready. Launching Web and Docs..."
+	@echo "Starting dev server..."
 	pnpm dev
 
-setup-core:
-	@echo "$(E_START) Starting core project (No dummy data)..."
-	docker-compose up -d
-	@echo "$(E_WAIT) Waiting for services to initialize (10s)..."
-	sleep 10
-	@echo "$(E_DB) Generating Prisma Client..."
-	docker-compose exec web pnpm --filter @repo/web run prisma:generate
-	@echo "⬆️ Pushing database schema..."
-	docker-compose exec web pnpm --filter @repo/web run prisma:push
-	@echo "$(E_CHECK) Setup complete! (Database is clean)"
-	@echo "$(E_WEB) Web App: http://localhost:3000"
-	@echo "$(E_DOCS) Docs:    http://localhost:3000/docs"
-
-setup-full:
-	@echo "$(E_START) Starting full project with dummy data..."
-	docker-compose up -d
-	@echo "$(E_WAIT) Waiting for services to initialize (10s)..."
-	sleep 10
-	@echo "$(E_DB) Generating Prisma Client..."
-	docker-compose exec web pnpm --filter @repo/web run prisma:generate
-	@echo "⬆️ Pushing database schema..."
-	docker-compose exec web pnpm --filter @repo/web run prisma:push
-	@echo "🌱 Seeding 25+ dummy users..."
-	docker-compose exec web pnpm --filter @repo/web run prisma:seed
-	@echo "$(E_CHECK) Setup complete! (Database seeded)"
-	@echo "$(E_WEB) Web App: http://localhost:3000"
-	@echo "$(E_DOCS) Docs:    http://localhost:3000/docs"
-
-up:
-	@echo "$(E_UP) Starting services..."
-	docker-compose up -d
-	@echo "$(E_WEB) Web App: http://localhost:3000"
-	@echo "$(E_DOCS) Docs:    http://localhost:3000/docs"
-
-down:
-	@echo "$(E_CLEAN) Ensuring web service is up for cleanup..."
-	docker-compose up -d web
-	@echo "$(E_DB) Syncing Prisma Client..."
-	-docker-compose exec web pnpm --filter @repo/web run prisma:generate
-	@echo "$(E_CLEAN) Cleaning dummy data..."
-	-docker-compose exec web pnpm --filter @repo/web run prisma:cleanup
-	@echo "$(E_STOP) Stopping all services..."
-	docker-compose down
-	@echo "$(E_CHECK) System offline."
-
-force-reset:
-	@echo "$(E_WARN) Forcefully clearing all containers..."
-	docker-compose down --remove-orphans
-	docker-compose rm -f
-	@echo "$(E_CHECK) Environment cleared."
-
-build:
-	@echo "$(E_BUILD) Rebuilding services..."
-	docker-compose up -d --build
-	@echo "$(E_CHECK) Build finished."
-
-logs:
-	@echo "$(E_LOGS) Streaming logs..."
-	docker-compose logs -f
-
-shell:
-	@echo "🐚 Entering web container..."
-	docker-compose exec web sh
-
-migrate:
-	@echo "$(E_DB) Running migrations..."
-	docker-compose exec web pnpm --filter @repo/web run migrate
+generate:
+	pnpm --filter @repo/web run prisma:generate
 
 push:
-	@echo "⬆️ Pushing schema..."
-	docker-compose exec web pnpm --filter @repo/web run prisma:push
-
-generate:
-	@echo "$(E_DB) Generating client..."
-	docker-compose exec web pnpm --filter @repo/web run prisma:generate
+	pnpm --filter @repo/web run prisma:push
 
 seed:
-	@echo "🌱 Seeding database..."
-	docker-compose exec web pnpm --filter @repo/web run prisma:generate
-	docker-compose exec web pnpm --filter @repo/web run prisma:seed
-	@echo "$(E_CHECK) Seeding finished."
+	pnpm --filter @repo/web run prisma:generate
+	pnpm --filter @repo/web run prisma:seed
 
 clean:
-	@echo "$(E_CLEAN) Ensuring web service is up..."
-	docker-compose up -d web
-	@echo "$(E_DB) Syncing Prisma Client..."
-	docker-compose exec web pnpm --filter @repo/web run prisma:generate
-	@echo "$(E_CLEAN) Removing dummy data..."
-	docker-compose exec web pnpm --filter @repo/web run prisma:cleanup
-	@echo "$(E_CHECK) Cleanup finished."
+	pnpm --filter @repo/web run prisma:generate
+	pnpm --filter @repo/web run prisma:cleanup
 
 nuke:
-	@echo "☢️ Resetting database..."
-	docker-compose exec web pnpm --filter @repo/web run prisma migrate reset --force
-	@echo "$(E_CHECK) Database wiped."
+	pnpm --filter @repo/web run prisma migrate reset --force
 
-restart:
-	@echo "🔄 Restarting project..."
-	docker-compose restart
-	@echo "$(E_CHECK) Restarted."
+# --- Production (Docker) -----------------------------------------------------
+
+up:
+	@echo "Starting production stack..."
+	docker compose up -d
+	@echo ""
+	@echo "Services:"
+	@echo "  Authentik:  http://localhost:$${AUTHENTIK_PORT_HTTP:-9000}"
+	@echo "  Strapi:     http://localhost:$${STRAPI_PORT:-1337}"
+	@echo "  PostgreSQL: localhost:5432 (internal only)"
+
+down:
+	docker compose down
+
+logs:
+	docker compose logs -f
+
+ps:
+	docker compose ps

@@ -20,8 +20,26 @@ model User {
   year        String?
   bio         String?
   skills      String[]
-  company     String?   // For Alumni
+  company     String?
   location    String?
+
+  // Contact & Social
+  phone        String?
+  linkedinUrl  String?
+  githubUrl    String?
+  portfolioUrl String?
+  resumeUrl    String?
+
+  // Academic
+  cgpa         Float?
+  grade        String?
+
+  // Final Year Project
+  projectName  String?
+  projectUrl   String?
+
+  // Placement
+  placementInfo String?
   
   lastLogin   DateTime?
   createdAt   DateTime  @default(now())

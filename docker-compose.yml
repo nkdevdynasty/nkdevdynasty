@@ -1,59 +1,166 @@
+# =============================================================================
+# NKDevDynasty — Full Production Stack (College Self-Hosted)
+# =============================================================================
+# Brings up: PostgreSQL, Redis, Authentik (SSO), Strapi (CMS), and the web app.
+# All services share a single PostgreSQL instance.
+#
+# Usage:
+#   1. Copy .env.example to .env and fill in the values
+#   2. docker compose up -d
+#
+# The web app service is commented out — uncomment when ready to deploy.
+# =============================================================================
+
 services:
-  db:
+  # ---------------------------------------------------------------------------
+  # PostgreSQL — shared database for all services
+  # ---------------------------------------------------------------------------
+  postgres:
     image: postgres:17-alpine
-    restart: always
+    restart: unless-stopped
     environment:
-      POSTGRES_USER: ${DATABASE_USER:-postgres}
-      POSTGRES_PASSWORD: ${DATABASE_PASSWORD:-password}
-      POSTGRES_DB: ${DATABASE_NAME:-nkdevdynasty}
-    ports:
-      - "${DATABASE_PORT:-5432}:5432"
+      POSTGRES_USER: ${PG_USER:-postgres}
+      POSTGRES_PASSWORD: ${PG_PASSWORD:?Set PG_PASSWORD in .env}
+      # Default DB used by Authentik; other services create their own via init script
+      POSTGRES_DB: authentik
     volumes:
       - postgres_data:/var/lib/postgresql/data
+      - ./docker/init-databases.sql:/docker-entrypoint-initdb.d/init-databases.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${PG_USER:-postgres}"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+    networks:
+      - internal
 
-  web:
-    build:
-      context: .
-      dockerfile: Dockerfile.dev
-    env_file:
-      - apps/web/.env
+  # ---------------------------------------------------------------------------
+  # Redis — required by Authentik for caching and task queues
+  # ---------------------------------------------------------------------------
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+    command: --save 60 1 --loglevel warning
     volumes:
-      - .:/app
-      - /app/node_modules
-      - /app/apps/web/node_modules
-      - /app/apps/docs/node_modules
-    ports:
-      - "3000:3000"
-    depends_on:
-      - db
-    command: pnpm --filter @repo/web run dev
-    deploy:
-      resources:
-        limits:
-          memory: 2G
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+    networks:
+      - internal
 
-  docs:
-    build:
-      context: .
-      dockerfile: Dockerfile.dev
-    env_file:
-      - apps/web/.env
-    volumes:
-      - .:/app
-      - /app/node_modules
-      - /app/apps/web/node_modules
-      - /app/apps/docs/node_modules
-    ports:
-      - "3001:3001"
+  # ---------------------------------------------------------------------------
+  # Authentik — SSO / Identity Provider
+  # ---------------------------------------------------------------------------
+  authentik-server:
+    image: ghcr.io/goauthentik/server:2024.12
+    restart: unless-stopped
+    command: server
     environment:
-      - NEXT_PUBLIC_DOCS_URL=http://localhost:3001
+      AUTHENTIK_REDIS__HOST: redis
+      AUTHENTIK_POSTGRESQL__HOST: postgres
+      AUTHENTIK_POSTGRESQL__USER: ${PG_USER:-postgres}
+      AUTHENTIK_POSTGRESQL__PASSWORD: ${PG_PASSWORD:?err}
+      AUTHENTIK_POSTGRESQL__NAME: authentik
+      AUTHENTIK_SECRET_KEY: ${AUTHENTIK_SECRET_KEY:?Set AUTHENTIK_SECRET_KEY in .env}
+    ports:
+      - "${AUTHENTIK_PORT_HTTP:-9000}:9000"
+      - "${AUTHENTIK_PORT_HTTPS:-9443}:9443"
+    volumes:
+      - authentik_media:/media
+      - authentik_templates:/templates
     depends_on:
-      - web
-    command: pnpm --filter @repo/docs run dev
-    deploy:
-      resources:
-        limits:
-          memory: 1G
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - internal
+
+  authentik-worker:
+    image: ghcr.io/goauthentik/server:2024.12
+    restart: unless-stopped
+    command: worker
+    environment:
+      AUTHENTIK_REDIS__HOST: redis
+      AUTHENTIK_POSTGRESQL__HOST: postgres
+      AUTHENTIK_POSTGRESQL__USER: ${PG_USER:-postgres}
+      AUTHENTIK_POSTGRESQL__PASSWORD: ${PG_PASSWORD:?err}
+      AUTHENTIK_POSTGRESQL__NAME: authentik
+      AUTHENTIK_SECRET_KEY: ${AUTHENTIK_SECRET_KEY:?err}
+    volumes:
+      - authentik_media:/media
+      - authentik_templates:/templates
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - internal
+
+  # ---------------------------------------------------------------------------
+  # Strapi — Headless CMS (Question Bank, Content)
+  # ---------------------------------------------------------------------------
+  strapi:
+    image: strapi/strapi:latest
+    restart: unless-stopped
+    environment:
+      DATABASE_CLIENT: postgres
+      DATABASE_HOST: postgres
+      DATABASE_PORT: 5432
+      DATABASE_NAME: strapi
+      DATABASE_USERNAME: ${PG_USER:-postgres}
+      DATABASE_PASSWORD: ${PG_PASSWORD:?err}
+      NODE_ENV: production
+    ports:
+      - "${STRAPI_PORT:-1337}:1337"
+    volumes:
+      - strapi_data:/srv/app
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - internal
+
+  # ---------------------------------------------------------------------------
+  # Web App — uncomment when ready to deploy
+  # ---------------------------------------------------------------------------
+  # web:
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile
+  #   restart: unless-stopped
+  #   environment:
+  #     DATABASE_URL: postgresql://${PG_USER:-postgres}:${PG_PASSWORD}@postgres:5432/nkdevdynasty
+  #     AUTH_SECRET: ${AUTH_SECRET:?Set AUTH_SECRET in .env}
+  #     AUTHENTIK_URL: http://authentik-server:9000
+  #     AUTHENTIK_ISSUER_URL: http://authentik-server:9000/application/o/nkdevdynasty/
+  #     AUTHENTIK_CLIENT_ID: ${AUTHENTIK_CLIENT_ID}
+  #     AUTHENTIK_CLIENT_SECRET: ${AUTHENTIK_CLIENT_SECRET}
+  #     AUTHENTIK_API_TOKEN: ${AUTHENTIK_API_TOKEN}
+  #     NODE_ENV: production
+  #   ports:
+  #     - "${WEB_PORT:-3000}:3000"
+  #   depends_on:
+  #     postgres:
+  #       condition: service_healthy
+  #   deploy:
+  #     resources:
+  #       limits:
+  #         memory: 512M
+  #   networks:
+  #     - internal
+
+networks:
+  internal:
+    driver: bridge
 
 volumes:
   postgres_data:
+  redis_data:
+  authentik_media:
+  authentik_templates:
+  strapi_data:

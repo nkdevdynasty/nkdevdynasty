@@ -11,8 +11,6 @@ import {
   Calendar,
   LogOut,
   Settings,
-  Shield,
-  ChevronRight,
   User as UserIcon,
 } from "lucide-react";
 
@@ -24,10 +22,6 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-  SidebarMenuSub,
-  SidebarMenuSubButton,
-  SidebarMenuSubItem,
-  SidebarTrigger,
   SidebarGroup,
   SidebarGroupLabel,
 } from "@/components/ui/sidebar";
@@ -55,7 +49,7 @@ export function AppSidebar({ user }: { user: any }) {
     admin: [
       { title: "Dashboard", href: "/dashboard/admin", icon: LayoutDashboard },
       { title: "Users", href: "/dashboard/admin/users", icon: Users },
-      { title: "System", href: "/dashboard/admin/events", icon: Shield },
+      { title: "Alumni", href: "/dashboard/admin/alumni", icon: Network },
     ],
     student: [
       { title: "Dashboard", href: "/dashboard/student", icon: LayoutDashboard },
@@ -71,9 +65,9 @@ export function AppSidebar({ user }: { user: any }) {
       },
     ],
     alumni: [
-      { title: "Network", href: "/dashboard/alumni", icon: LayoutDashboard },
-      { title: "Directory", href: "/dashboard/alumni/network", icon: Network },
-      { title: "Events", href: "/dashboard/alumni/events", icon: Calendar },
+      { title: "Dashboard", href: "/dashboard/alumni", icon: LayoutDashboard },
+      { title: "Directory", href: "/dashboard/alumni/directory", icon: Network },
+      { title: "Edit Profile", href: "/dashboard/alumni/profile/edit", icon: UserIcon },
     ],
   };
 

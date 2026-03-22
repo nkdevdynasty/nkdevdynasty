@@ -4,6 +4,8 @@ const nextConfig: NextConfig = {
   output: "standalone",
   transpilePackages: ["@hookform/resolvers"],
   serverExternalPackages: ["@prisma/client", "prisma"],
+  // Allow dev HMR when accessing via Tailscale IP instead of localhost.
+  allowedDevOrigins: ["100.64.11.64"],
   async rewrites() {
     return [
       {

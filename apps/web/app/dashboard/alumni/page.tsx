@@ -1,8 +1,8 @@
 import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
+import Link from "next/link";
 import {
-  User as UserIcon,
   Mail,
   Briefcase,
   GraduationCap,
@@ -10,7 +10,7 @@ import {
   MapPin,
   Award,
   Globe,
-  ArrowUpRight,
+  Pencil,
 } from "lucide-react";
 import {
   Card,
@@ -35,6 +35,22 @@ export default async function AlumniDashboard() {
 
   if (!user) redirect("/signin");
 
+  // Real stats from database
+  const totalAlumni = await prisma.user.count({
+    where: { role: "ALUMNI" },
+  });
+
+  const batchPeers = user.year
+    ? await prisma.user.count({
+        where: { role: "ALUMNI", year: user.year },
+      })
+    : 0;
+
+  // Check if profile is incomplete
+  const profileFields = [user.bio, user.company, user.location, user.year, user.linkedinUrl];
+  const filledFields = profileFields.filter(Boolean).length;
+  const isProfileIncomplete = filledFields < 3;
+
   return (
     <div className="flex flex-col gap-8 p-4 md:p-8 pt-6 max-w-7xl mx-auto">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
@@ -48,7 +64,7 @@ export default async function AlumniDashboard() {
               {user.name.split(" ")[0]}
             </span>
             . Stay connected with the{" "}
-            <span className="text-purple-600 font-bold">{user.major}</span>{" "}
+            <span className="text-purple-600 font-bold">{user.major || "BSc CS"}</span>{" "}
             community.
           </p>
         </div>
@@ -62,7 +78,7 @@ export default async function AlumniDashboard() {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-        {/* Professional Profile Section */}
+        {/* Profile Card */}
         <div className="lg:col-span-1 flex flex-col gap-6">
           <Card className="border-2 shadow-sm overflow-hidden border-t-4 border-t-purple-600">
             <CardContent className="pt-8 flex flex-col items-center text-center">
@@ -74,7 +90,7 @@ export default async function AlumniDashboard() {
               <div className="mt-6 space-y-1">
                 <h2 className="text-2xl font-black">{user.name}</h2>
                 <p className="text-sm font-bold text-muted-foreground uppercase tracking-widest">
-                  {user.year || "Class of 20XX"}
+                  {user.year ? `Class of ${user.year}` : "Class of 20XX"}
                 </p>
                 <div className="mt-2 inline-flex items-center px-3 py-1 rounded-lg bg-purple-50 text-purple-700 text-xs font-black uppercase">
                   {user.company || "Independent Professional"}
@@ -85,25 +101,25 @@ export default async function AlumniDashboard() {
 
               <div className="w-full space-y-4 text-left px-2">
                 <div className="flex items-center gap-4 text-sm font-medium group">
-                  <div className="p-2 rounded-lg bg-purple-50 text-purple-600 transition-colors group-hover:bg-purple-100">
+                  <div className="p-2 rounded-lg bg-purple-50 text-purple-600">
                     <Mail size={18} />
                   </div>
                   <span className="truncate">{user.email}</span>
                 </div>
                 <div className="flex items-center gap-4 text-sm font-medium group">
-                  <div className="p-2 rounded-lg bg-purple-50 text-purple-600 transition-colors group-hover:bg-purple-100">
+                  <div className="p-2 rounded-lg bg-purple-50 text-purple-600">
                     <GraduationCap size={18} />
                   </div>
-                  <span>{user.major}</span>
+                  <span>{user.major || "Not set"}</span>
                 </div>
                 <div className="flex items-center gap-4 text-sm font-medium group">
-                  <div className="p-2 rounded-lg bg-purple-50 text-purple-600 transition-colors group-hover:bg-purple-100">
+                  <div className="p-2 rounded-lg bg-purple-50 text-purple-600">
                     <MapPin size={18} />
                   </div>
                   <span>{user.location || "Location not set"}</span>
                 </div>
                 <div className="flex items-center gap-4 text-sm font-medium group">
-                  <div className="p-2 rounded-lg bg-purple-50 text-purple-600 transition-colors group-hover:bg-purple-100">
+                  <div className="p-2 rounded-lg bg-purple-50 text-purple-600">
                     <Briefcase size={18} />
                   </div>
                   <span className="font-bold">
@@ -118,28 +134,32 @@ export default async function AlumniDashboard() {
                   Bio
                 </p>
                 <p className="text-sm text-muted-foreground leading-relaxed italic">
-                  "{user.bio || "Sharing professional journey soon..."}"
+                  &quot;{user.bio || "Sharing professional journey soon..."}&quot;
                 </p>
               </div>
 
-              <Button className="w-full mt-8 bg-purple-600 hover:bg-purple-700 font-bold shadow-lg shadow-purple-200">
-                Update Professional Bio
-              </Button>
+              <Link href="/dashboard/alumni/profile/edit" className="w-full mt-8">
+                <Button className="w-full bg-purple-600 hover:bg-purple-700 font-bold shadow-lg shadow-purple-200">
+                  <Pencil className="h-4 w-4 mr-2" />
+                  Edit Profile
+                </Button>
+              </Link>
             </CardContent>
           </Card>
         </div>
 
         {/* Dashboard Content */}
         <div className="lg:col-span-3 flex flex-col gap-8">
+          {/* Stats */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <Card className="border-2 shadow-sm flex items-center justify-between p-6">
               <div className="space-y-1">
                 <p className="text-xs font-black uppercase tracking-widest text-muted-foreground">
-                  Network Reach
+                  Total Alumni
                 </p>
-                <p className="text-4xl font-black">142 Peers</p>
+                <p className="text-4xl font-black">{totalAlumni}</p>
                 <p className="text-xs font-bold text-purple-600">
-                  +12 this month
+                  Across all batches
                 </p>
               </div>
               <div className="h-14 w-14 rounded-2xl bg-purple-50 flex items-center justify-center text-purple-600 shadow-sm border border-purple-100">
@@ -149,36 +169,60 @@ export default async function AlumniDashboard() {
             <Card className="border-2 shadow-sm flex items-center justify-between p-6">
               <div className="space-y-1">
                 <p className="text-xs font-black uppercase tracking-widest text-muted-foreground">
-                  Mentorships
+                  Your Batch
                 </p>
-                <p className="text-4xl font-black">3 Students</p>
+                <p className="text-4xl font-black">
+                  {batchPeers} {batchPeers === 1 ? "Peer" : "Peers"}
+                </p>
                 <p className="text-xs font-bold text-green-600">
-                  Active Guidance
+                  {user.year ? `Class of ${user.year}` : "Set your graduation year"}
                 </p>
               </div>
               <div className="h-14 w-14 rounded-2xl bg-green-50 flex items-center justify-center text-green-600 shadow-sm border border-green-100">
-                <Globe size={28} />
+                <GraduationCap size={28} />
               </div>
             </Card>
           </div>
 
+          {/* Profile Completion CTA */}
+          {isProfileIncomplete && (
+            <Card className="border-2 border-amber-200 bg-amber-50/50">
+              <CardContent className="py-6 flex items-center justify-between">
+                <div>
+                  <p className="font-bold text-amber-800">Complete Your Profile</p>
+                  <p className="text-sm text-amber-700">
+                    Add your bio, company, location, and social links so your batchmates can find you.
+                  </p>
+                </div>
+                <Link href="/dashboard/alumni/profile/edit">
+                  <Button variant="outline" className="border-amber-300 text-amber-800 hover:bg-amber-100">
+                    <Pencil className="h-4 w-4 mr-2" /> Complete Profile
+                  </Button>
+                </Link>
+              </CardContent>
+            </Card>
+          )}
+
+          {/* Skills */}
           <Card className="border-2 shadow-sm">
             <CardHeader className="flex flex-row items-center justify-between border-b bg-muted/20">
               <div className="space-y-1">
                 <CardTitle className="text-xl font-bold">
-                  Expertise & Endorsements
+                  Expertise & Skills
                 </CardTitle>
                 <CardDescription>
                   Professional skills shared with the community.
                 </CardDescription>
               </div>
-              <Button
-                variant="outline"
-                size="sm"
-                className="font-bold border-purple-200 text-purple-700 hover:bg-purple-50"
-              >
-                Manage Skills
-              </Button>
+              <Link href="/dashboard/alumni/profile/edit">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="font-bold border-purple-200 text-purple-700 hover:bg-purple-50"
+                >
+                  Manage Skills
+                </Button>
+              </Link>
             </CardHeader>
             <CardContent className="pt-6">
               <div className="flex flex-wrap gap-2">
@@ -194,8 +238,7 @@ export default async function AlumniDashboard() {
                 ) : (
                   <div className="py-8 text-center w-full">
                     <p className="text-sm text-muted-foreground italic">
-                      Add your professional skills to help students find
-                      mentors.
+                      Add your professional skills to help students find mentors.
                     </p>
                   </div>
                 )}
@@ -203,74 +246,22 @@ export default async function AlumniDashboard() {
             </CardContent>
           </Card>
 
-          <Card className="border-2 shadow-sm overflow-hidden">
-            <CardHeader className="flex flex-row items-center justify-between border-b bg-muted/20">
-              <CardTitle className="text-xl font-bold text-purple-900 dark:text-purple-400">
-                Upcoming Networking Events
-              </CardTitle>
-              <Button
-                variant="ghost"
-                size="sm"
-                className="text-purple-600 font-bold hover:bg-purple-50"
-              >
-                View Calendar
-              </Button>
+          {/* Quick Links */}
+          <Card className="border-2 shadow-sm">
+            <CardHeader className="border-b bg-muted/20">
+              <CardTitle className="text-xl font-bold">Quick Links</CardTitle>
             </CardHeader>
-            <CardContent className="p-0">
-              <div className="divide-y">
-                {[
-                  {
-                    title: "Annual Tech Symposium",
-                    date: "April 15, 2026",
-                    time: "10:00 AM EST",
-                    type: "Virtual",
-                    attendees: 84,
-                  },
-                  {
-                    title: "Regional Alumni Mixer",
-                    date: "May 2, 2026",
-                    time: "06:30 PM",
-                    type: "In-Person",
-                    attendees: 42,
-                  },
-                ].map((event) => (
-                  <div
-                    key={event.title}
-                    className="p-6 hover:bg-muted/10 transition-colors flex justify-between items-center group"
-                  >
-                    <div className="space-y-1.5">
-                      <div className="flex items-center gap-2">
-                        <p className="font-black text-base">{event.title}</p>
-                        <Badge
-                          variant="outline"
-                          className="text-[9px] font-black uppercase py-0 h-4 border-purple-200 text-purple-600"
-                        >
-                          {event.type}
-                        </Badge>
-                      </div>
-                      <p className="text-sm font-semibold text-muted-foreground flex items-center gap-3">
-                        <span className="flex items-center gap-1.5">
-                          <Globe size={14} className="text-purple-400" />{" "}
-                          {event.date}
-                        </span>
-                        <span className="h-1 w-1 rounded-full bg-muted-foreground/30" />
-                        <span>{event.time}</span>
-                      </p>
-                      <p className="text-xs font-bold text-purple-600/70">
-                        {event.attendees} peers attending
-                      </p>
-                    </div>
-                    <Button className="font-black px-6 rounded-xl group-hover:scale-105 transition-transform">
-                      Register <ArrowUpRight className="ml-2 h-4 w-4" />
-                    </Button>
-                  </div>
-                ))}
-              </div>
-              <div className="p-4 bg-muted/5 text-center border-t">
-                <p className="text-xs font-bold text-muted-foreground">
-                  Showing 2 of 12 upcoming events
-                </p>
-              </div>
+            <CardContent className="pt-6 grid grid-cols-1 md:grid-cols-2 gap-3">
+              <Link href="/dashboard/alumni/directory">
+                <Button variant="outline" className="w-full justify-start font-bold">
+                  <Users className="h-4 w-4 mr-2" /> Browse Alumni Directory
+                </Button>
+              </Link>
+              <Link href="/dashboard/alumni/profile/edit">
+                <Button variant="outline" className="w-full justify-start font-bold">
+                  <Pencil className="h-4 w-4 mr-2" /> Edit Your Profile
+                </Button>
+              </Link>
             </CardContent>
           </Card>
         </div>

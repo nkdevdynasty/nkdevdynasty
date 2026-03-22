@@ -1,13 +1,28 @@
+# Dependencies
 node_modules
+.pnpm-store
+
+# Build output
 .next
-.turbo
 out
 dist
+.turbo
+
+# Dev/config files
 *.log
 .env
-.env.local
+.env.*
+!.env.example
 .git
-docker-compose.yml
+.github
+.vscode
+
+# Docker files (avoid recursive copy)
+docker-compose*.yml
 Dockerfile
 Makefile
+
+# Docs
 README.md
+API_DOC.MD
+GEMINI.md
