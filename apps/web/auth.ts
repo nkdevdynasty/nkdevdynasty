@@ -10,6 +10,7 @@ type AuthentikProfile = {
 };
 
 export const { auth, handlers, signIn, signOut } = NextAuth({
+  trustHost: true,
   providers: [
     {
       id: "authentik",
