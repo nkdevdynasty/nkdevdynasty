@@ -32,7 +32,7 @@ export async function GET() {
     }),
   ]);
 
-  const batches = batchCounts.map((b) => ({
+  const batches = batchCounts.map((b: { year: string | null; _count: number }) => ({
     year: b.year,
     count: b._count,
   }));

@@ -3,7 +3,16 @@
   "tasks": {
     "build": {
       "dependsOn": ["^build"],
-      "outputs": [".next/**", "!.next/cache/**", "dist/**"]
+      "outputs": [".next/**", "!.next/cache/**", "dist/**"],
+      "env": [
+        "DATABASE_URL",
+        "AUTH_SECRET",
+        "AUTHENTIK_URL",
+        "AUTHENTIK_ISSUER_URL",
+        "AUTHENTIK_CLIENT_ID",
+        "AUTHENTIK_CLIENT_SECRET",
+        "AUTHENTIK_API_TOKEN"
+      ]
     },
     "lint": {
       "dependsOn": ["^lint"]
