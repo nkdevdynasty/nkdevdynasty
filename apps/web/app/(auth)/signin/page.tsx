@@ -1,12 +1,13 @@
 "use client";
 
+import { Suspense } from "react";
 import { signIn, useSession } from "next-auth/react";
 import { useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import AuthCard from "@/components/auth-card/auth-card";
 
-export default function SignIn() {
+function SignInForm() {
   const { status } = useSession();
   const searchParams = useSearchParams();
   const error = searchParams.get("error");
@@ -40,5 +41,13 @@ export default function SignIn() {
         </p>
       </div>
     </AuthCard>
+  );
+}
+
+export default function SignIn() {
+  return (
+    <Suspense>
+      <SignInForm />
+    </Suspense>
   );
 }
