@@ -47,6 +47,24 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
   ],
 
   callbacks: {
+    async signIn({ user, account, profile }) {
+      // Log for debugging OAuth flow on Vercel
+      console.log("[auth] signIn callback hit", {
+        userId: user?.id,
+        provider: account?.provider,
+        hasProfile: !!profile,
+      });
+      return true;
+    },
+
+    async redirect({ url, baseUrl }) {
+      // Handle relative URLs
+      if (url.startsWith("/")) return `${baseUrl}${url}`;
+      // Handle same-origin URLs
+      if (new URL(url).origin === baseUrl) return url;
+      return baseUrl;
+    },
+
     async jwt({ token, account, user }) {
       if (user) {
         token.role = user.role;
