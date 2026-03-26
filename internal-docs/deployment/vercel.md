@@ -20,18 +20,18 @@ Set via API (not in vercel.json):
 
 ## Environment Variables (set in Vercel dashboard)
 
-| Variable | Description |
-|---|---|
-| DATABASE_URL | PostgreSQL connection string (Coolify, 89.167.10.11) |
-| AUTH_SECRET | NextAuth JWT secret (openssl rand -base64 32) |
-| NEXTAUTH_URL | https://svm-alumni.vercel.app |
-| AUTH_URL | https://svm-alumni.vercel.app |
-| AUTH_TRUST_HOST | true |
-| AUTHENTIK_URL | Authentik base URL |
-| AUTHENTIK_ISSUER_URL | OIDC issuer URL |
-| AUTHENTIK_CLIENT_ID | OAuth2 client ID (40 chars) |
-| AUTHENTIK_CLIENT_SECRET | OAuth2 client secret |
-| AUTHENTIK_API_TOKEN | Server-side API token |
+| Variable                | Description                                          |
+| ----------------------- | ---------------------------------------------------- |
+| DATABASE_URL            | PostgreSQL connection string (Coolify, 89.167.10.11) |
+| AUTH_SECRET             | NextAuth JWT secret (openssl rand -base64 32)        |
+| NEXTAUTH_URL            | https://svm-alumni.vercel.app                        |
+| AUTH_URL                | https://svm-alumni.vercel.app                        |
+| AUTH_TRUST_HOST         | true                                                 |
+| AUTHENTIK_URL           | Authentik base URL                                   |
+| AUTHENTIK_ISSUER_URL    | OIDC issuer URL                                      |
+| AUTHENTIK_CLIENT_ID     | OAuth2 client ID (40 chars)                          |
+| AUTHENTIK_CLIENT_SECRET | OAuth2 client secret                                 |
+| AUTHENTIK_API_TOKEN     | Server-side API token                                |
 
 ## Deploy from Terminal
 

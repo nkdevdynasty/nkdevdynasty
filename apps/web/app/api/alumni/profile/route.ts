@@ -66,7 +66,7 @@ export async function PATCH(req: NextRequest) {
     if (isNaN(cgpa) || cgpa < 0 || cgpa > 10) {
       return NextResponse.json(
         { error: "CGPA must be between 0 and 10" },
-        { status: 400 }
+        { status: 400 },
       );
     }
     updateData.cgpa = cgpa;
@@ -77,7 +77,7 @@ export async function PATCH(req: NextRequest) {
     if (year && !/^\d{4}$/.test(year)) {
       return NextResponse.json(
         { error: "Year must be a 4-digit number like 2024" },
-        { status: 400 }
+        { status: 400 },
       );
     }
   }

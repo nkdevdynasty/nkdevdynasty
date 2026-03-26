@@ -66,8 +66,16 @@ export function AppSidebar({ user }: { user: any }) {
     ],
     alumni: [
       { title: "Dashboard", href: "/dashboard/alumni", icon: LayoutDashboard },
-      { title: "Directory", href: "/dashboard/alumni/directory", icon: Network },
-      { title: "Edit Profile", href: "/dashboard/alumni/profile/edit", icon: UserIcon },
+      {
+        title: "Directory",
+        href: "/dashboard/alumni/directory",
+        icon: Network,
+      },
+      {
+        title: "Edit Profile",
+        href: "/dashboard/alumni/profile/edit",
+        icon: UserIcon,
+      },
     ],
   };
 

@@ -30,7 +30,13 @@ export default async function AlumniProfilePage({
     notFound();
   }
 
-  function Row({ label, value }: { label: string; value: string | null | undefined }) {
+  function Row({
+    label,
+    value,
+  }: {
+    label: string;
+    value: string | null | undefined;
+  }) {
     return (
       <tr className="border-b last:border-b-0">
         <td className="py-3 pr-4 text-sm font-semibold text-muted-foreground whitespace-nowrap align-top w-40">
@@ -101,7 +107,8 @@ export default async function AlumniProfilePage({
             </Badge>
             {user.cgpa && (
               <Badge className="bg-purple-100 text-purple-700 font-bold text-xs">
-                CGPA {user.cgpa}{user.grade ? ` · Grade ${user.grade}` : ""}
+                CGPA {user.cgpa}
+                {user.grade ? ` · Grade ${user.grade}` : ""}
               </Badge>
             )}
           </div>
@@ -135,13 +142,25 @@ export default async function AlumniProfilePage({
           <table className="w-full">
             <tbody>
               <Row label="Programme" value="BSc Computer Science Honours" />
-              <Row label="College" value="Saraswati Degree Vidya Mandira, Berhampur" />
+              <Row
+                label="College"
+                value="Saraswati Degree Vidya Mandira, Berhampur"
+              />
               <Row label="University" value="Berhampur University" />
-              <Row label="Batch" value={user.year ? `${Number(user.year) - 3}–${user.year}` : null} />
+              <Row
+                label="Batch"
+                value={
+                  user.year ? `${Number(user.year) - 3}–${user.year}` : null
+                }
+              />
               <Row label="Graduation Year" value={user.year} />
               <Row
                 label="CGPA"
-                value={user.cgpa ? `${user.cgpa} / 10${user.grade ? ` (Grade ${user.grade})` : ""}` : null}
+                value={
+                  user.cgpa
+                    ? `${user.cgpa} / 10${user.grade ? ` (Grade ${user.grade})` : ""}`
+                    : null
+                }
               />
             </tbody>
           </table>
@@ -166,7 +185,11 @@ export default async function AlumniProfilePage({
                   {user.skills.length > 0 ? (
                     <div className="flex flex-wrap gap-1.5">
                       {user.skills.map((skill) => (
-                        <Badge key={skill} variant="secondary" className="text-xs font-bold">
+                        <Badge
+                          key={skill}
+                          variant="secondary"
+                          className="text-xs font-bold"
+                        >
                           {skill}
                         </Badge>
                       ))}
@@ -190,7 +213,11 @@ export default async function AlumniProfilePage({
           <table className="w-full">
             <tbody>
               <Row label="Project Name" value={user.projectName} />
-              <LinkRow label="Project Link" url={user.projectUrl} icon={<ExternalLink className="h-3.5 w-3.5" />} />
+              <LinkRow
+                label="Project Link"
+                url={user.projectUrl}
+                icon={<ExternalLink className="h-3.5 w-3.5" />}
+              />
             </tbody>
           </table>
         </div>
@@ -204,10 +231,26 @@ export default async function AlumniProfilePage({
         <div className="rounded-lg border-2 overflow-hidden">
           <table className="w-full">
             <tbody>
-              <LinkRow label="LinkedIn" url={user.linkedinUrl} icon={<Linkedin className="h-3.5 w-3.5" />} />
-              <LinkRow label="GitHub" url={user.githubUrl} icon={<Github className="h-3.5 w-3.5" />} />
-              <LinkRow label="Portfolio" url={user.portfolioUrl} icon={<Globe className="h-3.5 w-3.5" />} />
-              <LinkRow label="Resume" url={user.resumeUrl} icon={<FileText className="h-3.5 w-3.5" />} />
+              <LinkRow
+                label="LinkedIn"
+                url={user.linkedinUrl}
+                icon={<Linkedin className="h-3.5 w-3.5" />}
+              />
+              <LinkRow
+                label="GitHub"
+                url={user.githubUrl}
+                icon={<Github className="h-3.5 w-3.5" />}
+              />
+              <LinkRow
+                label="Portfolio"
+                url={user.portfolioUrl}
+                icon={<Globe className="h-3.5 w-3.5" />}
+              />
+              <LinkRow
+                label="Resume"
+                url={user.resumeUrl}
+                icon={<FileText className="h-3.5 w-3.5" />}
+              />
             </tbody>
           </table>
         </div>

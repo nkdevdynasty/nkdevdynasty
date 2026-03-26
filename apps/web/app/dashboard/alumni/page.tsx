@@ -47,7 +47,13 @@ export default async function AlumniDashboard() {
     : 0;
 
   // Check if profile is incomplete
-  const profileFields = [user.bio, user.company, user.location, user.year, user.linkedinUrl];
+  const profileFields = [
+    user.bio,
+    user.company,
+    user.location,
+    user.year,
+    user.linkedinUrl,
+  ];
   const filledFields = profileFields.filter(Boolean).length;
   const isProfileIncomplete = filledFields < 3;
 
@@ -64,7 +70,9 @@ export default async function AlumniDashboard() {
               {user.name.split(" ")[0]}
             </span>
             . Stay connected with the{" "}
-            <span className="text-purple-600 font-bold">{user.major || "BSc CS"}</span>{" "}
+            <span className="text-purple-600 font-bold">
+              {user.major || "BSc CS"}
+            </span>{" "}
             community.
           </p>
         </div>
@@ -134,11 +142,15 @@ export default async function AlumniDashboard() {
                   Bio
                 </p>
                 <p className="text-sm text-muted-foreground leading-relaxed italic">
-                  &quot;{user.bio || "Sharing professional journey soon..."}&quot;
+                  &quot;{user.bio || "Sharing professional journey soon..."}
+                  &quot;
                 </p>
               </div>
 
-              <Link href="/dashboard/alumni/profile/edit" className="w-full mt-8">
+              <Link
+                href="/dashboard/alumni/profile/edit"
+                className="w-full mt-8"
+              >
                 <Button className="w-full bg-purple-600 hover:bg-purple-700 font-bold shadow-lg shadow-purple-200">
                   <Pencil className="h-4 w-4 mr-2" />
                   Edit Profile
@@ -175,7 +187,9 @@ export default async function AlumniDashboard() {
                   {batchPeers} {batchPeers === 1 ? "Peer" : "Peers"}
                 </p>
                 <p className="text-xs font-bold text-green-600">
-                  {user.year ? `Class of ${user.year}` : "Set your graduation year"}
+                  {user.year
+                    ? `Class of ${user.year}`
+                    : "Set your graduation year"}
                 </p>
               </div>
               <div className="h-14 w-14 rounded-2xl bg-green-50 flex items-center justify-center text-green-600 shadow-sm border border-green-100">
@@ -189,13 +203,19 @@ export default async function AlumniDashboard() {
             <Card className="border-2 border-amber-200 bg-amber-50/50">
               <CardContent className="py-6 flex items-center justify-between">
                 <div>
-                  <p className="font-bold text-amber-800">Complete Your Profile</p>
+                  <p className="font-bold text-amber-800">
+                    Complete Your Profile
+                  </p>
                   <p className="text-sm text-amber-700">
-                    Add your bio, company, location, and social links so your batchmates can find you.
+                    Add your bio, company, location, and social links so your
+                    batchmates can find you.
                   </p>
                 </div>
                 <Link href="/dashboard/alumni/profile/edit">
-                  <Button variant="outline" className="border-amber-300 text-amber-800 hover:bg-amber-100">
+                  <Button
+                    variant="outline"
+                    className="border-amber-300 text-amber-800 hover:bg-amber-100"
+                  >
                     <Pencil className="h-4 w-4 mr-2" /> Complete Profile
                   </Button>
                 </Link>
@@ -238,7 +258,8 @@ export default async function AlumniDashboard() {
                 ) : (
                   <div className="py-8 text-center w-full">
                     <p className="text-sm text-muted-foreground italic">
-                      Add your professional skills to help students find mentors.
+                      Add your professional skills to help students find
+                      mentors.
                     </p>
                   </div>
                 )}
@@ -253,12 +274,18 @@ export default async function AlumniDashboard() {
             </CardHeader>
             <CardContent className="pt-6 grid grid-cols-1 md:grid-cols-2 gap-3">
               <Link href="/dashboard/alumni/directory">
-                <Button variant="outline" className="w-full justify-start font-bold">
+                <Button
+                  variant="outline"
+                  className="w-full justify-start font-bold"
+                >
                   <Users className="h-4 w-4 mr-2" /> Browse Alumni Directory
                 </Button>
               </Link>
               <Link href="/dashboard/alumni/profile/edit">
-                <Button variant="outline" className="w-full justify-start font-bold">
+                <Button
+                  variant="outline"
+                  className="w-full justify-start font-bold"
+                >
                   <Pencil className="h-4 w-4 mr-2" /> Edit Your Profile
                 </Button>
               </Link>

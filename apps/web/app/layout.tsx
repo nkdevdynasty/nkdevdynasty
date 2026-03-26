@@ -4,6 +4,7 @@ import "./globals.css";
 import { SessionProvider } from "next-auth/react";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { Toaster } from "react-hot-toast";
+import { Navbar } from "@/components/common/nav";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -32,6 +33,7 @@ export default function RootLayout({
       >
         <SessionProvider>
           <TooltipProvider>
+            <Navbar />
             {children}
             <Toaster position="top-right" reverseOrder={false} />
           </TooltipProvider>

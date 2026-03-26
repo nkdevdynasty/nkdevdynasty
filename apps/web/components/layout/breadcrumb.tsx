@@ -32,9 +32,7 @@ export function Breadcrumb() {
 
         return (
           <span key={href} className="flex items-center gap-1.5">
-            {index > 0 && (
-              <span className="text-muted-foreground/30">/</span>
-            )}
+            {index > 0 && <span className="text-muted-foreground/30">/</span>}
             {isLast ? (
               <span className="font-bold text-foreground">{label}</span>
             ) : (

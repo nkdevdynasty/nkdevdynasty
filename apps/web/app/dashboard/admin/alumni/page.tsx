@@ -2,12 +2,7 @@ import { auth } from "@/auth";
 import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import Link from "next/link";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Users, UserCheck, GraduationCap, ArrowRight } from "lucide-react";
@@ -104,9 +99,7 @@ export default async function AdminAlumniPage() {
         {/* Batch Breakdown */}
         <Card className="border-2">
           <CardHeader>
-            <CardTitle className="text-lg font-bold">
-              Batches
-            </CardTitle>
+            <CardTitle className="text-lg font-bold">Batches</CardTitle>
           </CardHeader>
           <CardContent>
             {batches.length === 0 ? (
@@ -123,9 +116,7 @@ export default async function AdminAlumniPage() {
                     <div className="flex items-center justify-between p-3 rounded-lg border hover:bg-muted/50 transition-colors cursor-pointer">
                       <div className="flex items-center gap-3">
                         <GraduationCap className="h-4 w-4 text-muted-foreground" />
-                        <span className="font-bold">
-                          Class of {batch.year}
-                        </span>
+                        <span className="font-bold">Class of {batch.year}</span>
                       </div>
                       <div className="flex items-center gap-2">
                         <Badge variant="secondary" className="font-bold">
@@ -144,9 +135,7 @@ export default async function AdminAlumniPage() {
         {/* Recent Joins */}
         <Card className="border-2">
           <CardHeader>
-            <CardTitle className="text-lg font-bold">
-              Recently Added
-            </CardTitle>
+            <CardTitle className="text-lg font-bold">Recently Added</CardTitle>
           </CardHeader>
           <CardContent>
             {recentJoins.length === 0 ? (

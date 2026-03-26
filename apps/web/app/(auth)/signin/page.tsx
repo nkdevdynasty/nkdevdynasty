@@ -37,7 +37,7 @@ function SignInForm() {
         <Separator />
 
         <p className="text-xs text-center text-muted-foreground">
-          You will be redirected to the login page
+          © {new Date().getFullYear()} Catalyst. All rights reserved.
         </p>
       </div>
     </AuthCard>

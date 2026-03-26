@@ -39,13 +39,13 @@ cp apps/web/.env.example apps/web/.env
 
 Edit `apps/web/.env` and fill in:
 
-| Variable | Where to get it |
-|---|---|
-| `DATABASE_URL` | Your own Supabase or Postgres instance |
-| `AUTH_SECRET` | Run `openssl rand -base64 32` |
-| `AUTHENTIK_CLIENT_ID` | Ask team lead |
-| `AUTHENTIK_CLIENT_SECRET` | Ask team lead |
-| `AUTHENTIK_API_TOKEN` | Ask team lead |
+| Variable                  | Where to get it                        |
+| ------------------------- | -------------------------------------- |
+| `DATABASE_URL`            | Your own Supabase or Postgres instance |
+| `AUTH_SECRET`             | Run `openssl rand -base64 32`          |
+| `AUTHENTIK_CLIENT_ID`     | Ask team lead                          |
+| `AUTHENTIK_CLIENT_SECRET` | Ask team lead                          |
+| `AUTHENTIK_API_TOKEN`     | Ask team lead                          |
 
 The `AUTHENTIK_URL` and `AUTHENTIK_ISSUER_URL` are pre-filled in the example file.
 
@@ -69,14 +69,14 @@ That's it. Installs deps, generates Prisma client, starts the dev server.
 
 ## Commands
 
-| Command | What it does |
-|---|---|
-| `make setup` | First time setup: install, push schema, seed 19 alumni |
-| `make dev` | Start the dev server |
-| `make seed` | Seed alumni data (safe to run multiple times) |
-| `make push` | Push Prisma schema changes to database |
-| `make generate` | Regenerate Prisma client after schema changes |
-| `make nuke` | Reset database completely (destructive!) |
+| Command         | What it does                                           |
+| --------------- | ------------------------------------------------------ |
+| `make setup`    | First time setup: install, push schema, seed 19 alumni |
+| `make dev`      | Start the dev server                                   |
+| `make seed`     | Seed alumni data (safe to run multiple times)          |
+| `make push`     | Push Prisma schema changes to database                 |
+| `make generate` | Regenerate Prisma client after schema changes          |
+| `make nuke`     | Reset database completely (destructive!)               |
 
 ## Tech Stack
 

@@ -2,10 +2,7 @@ import { auth } from "@/auth";
 import { redirect, notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import Link from "next/link";
-import {
-  Card,
-  CardContent,
-} from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -67,7 +64,13 @@ export default async function BatchPage({
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {users.map((user) => {
           // Simple profile completeness check
-          const filled = [user.bio, user.company, user.location, user.linkedinUrl, user.githubUrl].filter(Boolean).length;
+          const filled = [
+            user.bio,
+            user.company,
+            user.location,
+            user.linkedinUrl,
+            user.githubUrl,
+          ].filter(Boolean).length;
           const isComplete = filled >= 3;
 
           return (
@@ -118,7 +121,11 @@ export default async function BatchPage({
                   {user.skills.length > 0 && (
                     <div className="flex flex-wrap gap-1 mt-3">
                       {user.skills.slice(0, 3).map((skill) => (
-                        <Badge key={skill} variant="secondary" className="text-xs">
+                        <Badge
+                          key={skill}
+                          variant="secondary"
+                          className="text-xs"
+                        >
                           {skill}
                         </Badge>
                       ))}

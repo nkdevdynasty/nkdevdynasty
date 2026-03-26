@@ -39,24 +39,24 @@
 
 ## New Pages
 
-| Route | Purpose |
-|---|---|
-| `/dashboard/alumni/profile/edit` | Alumni edits own profile |
-| `/alumni` | Public alumni directory (card grid, search, batch filter) |
-| `/alumni/[id]` | Full alumni profile page |
-| `/dashboard/alumni/directory` | Alumni-facing directory |
-| `/dashboard/admin/alumni` | Admin alumni dashboard (batch stats) |
-| `/dashboard/admin/alumni/batch/[year]` | View batch members |
-| `/dashboard/admin/alumni/onboard` | Bulk create alumni (CSV or manual) |
+| Route                                  | Purpose                                                   |
+| -------------------------------------- | --------------------------------------------------------- |
+| `/dashboard/alumni/profile/edit`       | Alumni edits own profile                                  |
+| `/alumni`                              | Public alumni directory (card grid, search, batch filter) |
+| `/alumni/[id]`                         | Full alumni profile page                                  |
+| `/dashboard/alumni/directory`          | Alumni-facing directory                                   |
+| `/dashboard/admin/alumni`              | Admin alumni dashboard (batch stats)                      |
+| `/dashboard/admin/alumni/batch/[year]` | View batch members                                        |
+| `/dashboard/admin/alumni/onboard`      | Bulk create alumni (CSV or manual)                        |
 
 ## New API Endpoints
 
-| Method | Route | Purpose |
-|---|---|---|
-| PATCH | `/api/alumni/profile` | Alumni self-service profile update |
-| GET | `/api/alumni/directory` | Paginated, filtered alumni listing |
-| GET | `/api/admin/alumni/stats` | Alumni statistics & batch breakdown |
-| POST | `/api/admin/alumni/bulk-create` | Bulk create alumni accounts |
+| Method | Route                           | Purpose                             |
+| ------ | ------------------------------- | ----------------------------------- |
+| PATCH  | `/api/alumni/profile`           | Alumni self-service profile update  |
+| GET    | `/api/alumni/directory`         | Paginated, filtered alumni listing  |
+| GET    | `/api/admin/alumni/stats`       | Alumni statistics & batch breakdown |
+| POST   | `/api/admin/alumni/bulk-create` | Bulk create alumni accounts         |
 
 ## Build Order
 
@@ -75,6 +75,7 @@
 ## Data Source
 
 The `artifacts/2023-2026 NK NAGAR C.S Final Year Project Status.xlsx` contains ~22 students with:
+
 - Names, project names, deployed links
 - GitHub profiles, LinkedIn, Portfolio URLs
 - Placement info (TCS, Anthem, etc.)

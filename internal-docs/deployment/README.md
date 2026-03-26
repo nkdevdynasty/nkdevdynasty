@@ -43,13 +43,13 @@ docker compose -f internal-docs/deployment/docker-compose.yml logs -f
 
 ### Services
 
-| Service | Port | Description |
-|---|---|---|
-| PostgreSQL | 5432 (internal) | Shared database for all services |
-| Redis | 6379 (internal) | Authentik cache and task queues |
-| Authentik | 9000 | SSO / Identity Provider |
-| Strapi | 1337 | Headless CMS (Question Bank) |
-| Web App | 3000 | Next.js app (commented out — using Vercel for now) |
+| Service    | Port            | Description                                        |
+| ---------- | --------------- | -------------------------------------------------- |
+| PostgreSQL | 5432 (internal) | Shared database for all services                   |
+| Redis      | 6379 (internal) | Authentik cache and task queues                    |
+| Authentik  | 9000            | SSO / Identity Provider                            |
+| Strapi     | 1337            | Headless CMS (Question Bank)                       |
+| Web App    | 3000            | Next.js app (commented out — using Vercel for now) |
 
 ### Required .env
 

@@ -45,7 +45,11 @@ export default function EditAlumniProfile() {
         setLocation(user.location || "");
         setYear(user.year || "");
         setMajor(user.major || "");
-        setCgpa(user.cgpa !== null && user.cgpa !== undefined ? String(user.cgpa) : "");
+        setCgpa(
+          user.cgpa !== null && user.cgpa !== undefined
+            ? String(user.cgpa)
+            : "",
+        );
         setGrade(user.grade || "");
         setProjectName(user.projectName || "");
         setProjectUrl(user.projectUrl || "");

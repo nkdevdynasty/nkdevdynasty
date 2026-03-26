@@ -372,7 +372,8 @@ const alumni = [
     resumeUrl: "https://drive.google.com/file/d/ipsita-resume",
     projectName: "Academic Management Portal",
     projectUrl: "https://amp-i54u.onrender.com/",
-    placementInfo: "Anthem Global Technology Service, Chandaka IT Zone, Bhubaneswar",
+    placementInfo:
+      "Anthem Global Technology Service, Chandaka IT Zone, Bhubaneswar",
   },
   {
     name: "P Sneha Reddy",
@@ -451,7 +452,7 @@ async function main() {
   }
 
   console.log(
-    `\n🎉 Seeding complete! Created: ${created}, Updated: ${updated}, Total: ${alumni.length}`
+    `\n🎉 Seeding complete! Created: ${created}, Updated: ${updated}, Total: ${alumni.length}`,
   );
 }
 

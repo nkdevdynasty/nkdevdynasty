@@ -32,10 +32,12 @@ export async function GET() {
     }),
   ]);
 
-  const batches = batchCounts.map((b: { year: string | null; _count: number }) => ({
-    year: b.year,
-    count: b._count,
-  }));
+  const batches = batchCounts.map(
+    (b: { year: string | null; _count: number }) => ({
+      year: b.year,
+      count: b._count,
+    }),
+  );
 
   return NextResponse.json({ total, active, recentJoins, batches });
 }

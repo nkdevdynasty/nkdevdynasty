@@ -161,7 +161,11 @@ export default function AlumniDirectory() {
                   {user.skills.length > 0 && (
                     <div className="flex flex-wrap gap-1.5 mt-4">
                       {user.skills.slice(0, 3).map((skill) => (
-                        <Badge key={skill} variant="secondary" className="text-xs">
+                        <Badge
+                          key={skill}
+                          variant="secondary"
+                          className="text-xs"
+                        >
                           {skill}
                         </Badge>
                       ))}
